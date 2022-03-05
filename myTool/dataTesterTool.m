@@ -46,21 +46,27 @@ test_lbls = categorical(test_lbls);
 append=1;%da dove partire a inserire immagini
 
 iterations = 1; %cambiare prima di ogni chiamata a file per modificare il numero di immagini generate
-interval = [1:tr_data_sz];%intcervallo da cui campionare immagini
+interval = [1:tr_data_sz];%intervallo da cui campionare immagini
 
-Denoise;
-ChannelRemoval;
-Dithering;
+%inserire augmentation potenzialmente modificando append, iterations e interval
+
+% Dithering;
+% ColorReduction;
+% iterations = 2;
+% GenericColorAugment;
+% Project;
 Deformation;
-GenericFormAugment;
 
+
+%training_imgs = training_imgs(:,:,:,tr_data_sz+1:size(training_lbls,2));
+%training_lbls = training_lbls(tr_data_sz+1:size(training_lbls,2));
 %% TRAINING OPTIONS
 
 options = trainingOptions('adam',...                    %sgdm
     'Plots','training-progress',...                 %training-progress
     'Verbose', true,...                                 %false
     'MaxEpochs', 9,...                                  %20
-    'MiniBatchSize', 50,...                             %30
+    'MiniBatchSize', 60,...                             %30
     'Shuffle', 'every-epoch',...                        %every-epoch
     'ValidationData', {test_imgs, test_lbls},...        %
     'ValidationFrequency',10,...                        %30
@@ -87,12 +93,54 @@ newLayers = [
 lgraph = addLayers(lgraph,newLayers);
 lgraph = connectLayers(lgraph,'pool5','fc');
 
+% lgraph = layerGraph(resnet50); %Scelta del network da utilizzare
+% lgraph = removeLayers(lgraph, {'ClassificationLayer_fc1000','fc1000_softmax','fc1000'});
+% newLayers = [
+%     fullyConnectedLayer(num_classes,'Name','fc','WeightLearnRateFactor',20,'BiasLearnRateFactor', 20)
+%     softmaxLayer('Name','softmax')
+%     classificationLayer('Name','classoutput')];
+% lgraph = addLayers(lgraph,newLayers);
+% lgraph = connectLayers(lgraph,'avg_pool','fc');
+
 %% TRAINING
 
 
-disp("Inverted 2x")
+disp(" 2x")
 
 netTransfer = trainNetwork(training_imgs, training_lbls, lgraph, options);
 
 [outclass, score{fold}] =  classify(netTransfer,test_imgs);
-accuracy = sum(outclass == transpose(test_lbls))/numel(outclass)
+accuracy = sum(outclass == transpose(test_lbls))/numel(outclass)*100
+%% Checking features
+
+img = training_imgs(:,:,:,1);
+Y = classify(netTransfer,img);
+
+map = imageLIME(netTransfer,img,Y);
+imshow(img,'InitialMagnification',150)
+hold on
+imagesc(map,'AlphaData',0.4)
+colormap jet
+colorbar
+
+title(sprintf("Image LIME (%s)", ...
+    Y))
+hold off
+%% checking 2
+
+
+map = imageLIME(netTransfer,img,Y, ...
+    "Segmentation","grid",...
+    "OutputUpsampling","bicubic",...
+    "NumFeatures",100,...
+    "NumSamples",6000,...
+    "Model","linear");
+
+imshow(img,'InitialMagnification', 150)
+hold on
+imagesc(map,'AlphaData',0.5)
+colormap jet
+
+title(sprintf("Image LIME (%s - linear model)", ...
+    Y))
+hold off

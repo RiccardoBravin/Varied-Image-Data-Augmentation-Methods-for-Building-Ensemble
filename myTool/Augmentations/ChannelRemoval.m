@@ -4,10 +4,6 @@ for pattern = interval
     while i <= iterations
         img(:,:,:)=training_imgs(:,:,:,pattern);
         
-        %for j = 1:randi([20,50])
-        %    img(img == floor(rand()*255)) = 0;
-        %end
-        
         img(:,:,randi([1,3])) = 0;
         
         training_imgs(:,:,:,tr_data_sz+append) = img;
