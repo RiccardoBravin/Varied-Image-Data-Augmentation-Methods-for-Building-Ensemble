@@ -1,0 +1,8 @@
+=== Bark-101 ===
+This is a class anonymous release of the dataset we used in our experiments for the VISAPP'19 paper.
+Please, refer to the train and test files to use the data.
+
+/!\ Small erratum w.r.t. published paper : 
+	- The total number of images used in our experiments is 2587, not 2592.
+	  Total number 2587 corresponds to the published results and to the provided test/train files.
+	  This erratum should not affect your results if your are using provided train/test files.
