@@ -1,0 +1,207 @@
+In this file is reported how functions for data augmentation based on transforms work, their input and output parameters 
+
+------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------
+
+## dataAugDct
+
+this method receives in input a training set, a training label and the dimension of training set and returns a new 
+training label with fourfold dimension and the corresponding training label
+
+# input parameters
+
+images : set of RGB images
+
+x : label assiociated to every image
+
+DIM1 : numbers of images in 'images'
+
+
+# output parameters
+
+trainingImages : set of RGB images
+
+y : label assiociated to every image
+
+------------------------------------------------------------------------------------------------------------------------
+
+## dataAugDwt
+
+this method receives in input a training set, a training label and the dimension of training set and returns a new 
+training label with fourfold dimension and the corresponding training label
+
+# input parameters
+
+images : set of RGB images
+
+x : label assiociated to every image
+
+DIM1 : numbers of images in 'images'
+
+
+# output parameters
+
+trainingImages : set of RGB images
+
+y : label assiociated to every image
+
+------------------------------------------------------------------------------------------------------------------------
+
+## dataAugCqt
+
+this method receives in input a training set, a training label and the dimension of training set and returns a new 
+training label with fourfold dimension and the corresponding training label
+
+# input parameters
+
+images : set of RGB images
+
+x : label assiociated to every image
+
+DIM1 : numbers of images in 'images'
+
+
+# output parameters
+
+trainingImages : set of RGB images
+
+y : label assiociated to every image
+
+------------------------------------------------------------------------------------------------------------------------
+
+## method1dct
+
+this method receives in input one image (im) and returns it modified (image) with the help of the discrete cosine 
+trasform
+
+# input parameters
+
+im : RGB image
+
+# output parameters
+
+image : RGB image
+
+------------------------------------------------------------------------------------------------------------------------
+
+## method1dwt
+
+this method receives in input one image (im) and returns it modified (image) with the help of the discrete wavelet 
+trasform
+
+# input parameters
+
+im : RGB image
+
+# output parameters
+
+image : RGB image
+
+------------------------------------------------------------------------------------------------------------------------
+
+## method1cqt
+
+this method receives in input one image (im) and returns it modified (image) with the help of the Gabor's trasform
+
+# input parameters
+
+im : RGB image
+
+# output parameters
+
+image : RGB image
+
+------------------------------------------------------------------------------------------------------------------------
+
+## method2dct
+
+this method receives in input one image (im) and returns it modified (image) with the help of the discrete cosine 
+trasform
+
+# input parameters
+
+im : RGB image
+
+# output parameters
+
+image : RGB image
+
+------------------------------------------------------------------------------------------------------------------------
+
+## method2dwt
+
+this method receives in input one image (im) and returns it modified (image) with the help of the discrete wavelet
+trasform
+
+# input parameters
+
+im : RGB image
+
+# output parameters
+
+image : RGB image
+
+------------------------------------------------------------------------------------------------------------------------
+
+## method2cqt
+
+this method receives in input one image (im) and returns it modified (image) with the help of the Gabor's trasform
+
+# input parameters
+
+im : RGB image
+
+# output parameters
+
+image : RGB image
+
+------------------------------------------------------------------------------------------------------------------------
+
+## method3dct
+
+this method receives in input one image (im) and a set of 5 images (samples) with the same label of 'im' and returns it 
+modified (image) with the help of the discrete cosine trasform
+
+# input parameters
+
+im : RGB image
+
+samples : set of 5 images RGB
+
+# output parameters
+
+image : RGB image
+
+------------------------------------------------------------------------------------------------------------------------
+
+## method3dwt
+
+this method receives in input one image (im) and a set of 5 images (samples) with the same label of 'im' and returns it 
+modified (image) with the help of the discrete wavelet trasform
+
+# input parameters
+
+im : RGB image
+
+samples : set of 5 images RGB
+
+# output parameters
+
+image : RGB image
+
+------------------------------------------------------------------------------------------------------------------------
+
+## method3cqt
+
+this method receives in input one image (im) and a set of 5 images (samples) with the same label of 'im' and returns it 
+modified (image) with the help of the Gabor's trasform
+
+# input parameters
+
+im : RGB image
+
+samples : set of 5 images RGB
+
+# output parameters
+
+image : RGB image
