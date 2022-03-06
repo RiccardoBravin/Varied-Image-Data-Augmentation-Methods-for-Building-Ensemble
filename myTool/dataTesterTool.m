@@ -14,10 +14,8 @@ DIM = DATA{5};  %numero totale di immagini presenti
 
 %% DATA MANIPULATION
 
-clearvars -except DATA IMGS LBLS PATS DIVS DIM
-
 im_dim=[224 224];%input size of ResNet50
-fold = 1; %DECIDI QUALE FOLD UTILIZZARE PER GLI INDICI
+fold = 2; %DECIDI QUALE FOLD UTILIZZARE PER GLI INDICI
 num_classes = max(LBLS); %numero di classi di dati
 
 tr_data_sz = DIVS(fold); %numero di immagini per il training
@@ -45,29 +43,25 @@ test_lbls = categorical(test_lbls);
 %% DATA AUGMENTATION
 append=1;%da dove partire a inserire immagini
 
-iterations = 2; %cambiare prima di ogni chiamata a file per modificare il numero di immagini generate
+iterations = 1; %cambiare prima di ogni chiamata a file per modificare il numero di immagini generate
 interval = [1:tr_data_sz];%intervallo da cui campionare immagini
 
 %inserire augmentation potenzialmente modificando append, iterations e interval
+ColorShift;
 
-Dithering;
-Project;
-Deformation;
-
-
-%training_imgs = training_imgs(:,:,:,tr_data_sz+1:size(training_lbls,2));
-%training_lbls = training_lbls(tr_data_sz+1:size(training_lbls,2));
+training_imgs = training_imgs(:,:,:,tr_data_sz+1:size(training_lbls,2));
+training_lbls = training_lbls(tr_data_sz+1:size(training_lbls,2));
 %% TRAINING OPTIONS
 
 options = trainingOptions('adam',...                    %sgdm
-    'Plots','training-progress',...                 %training-progress
-    'Verbose', true,...                                 %false
+    'Plots','none',...                 %training-progress
+    'Verbose', false,...                                 %false
     'MaxEpochs', 9,...                                  %20
-    'MiniBatchSize', 60,...                             %30
+    'MiniBatchSize', 30,...                             %30
     'Shuffle', 'every-epoch',...                        %every-epoch
     'ValidationData', {test_imgs, test_lbls},...        %
-    'ValidationFrequency',10,...                        %30
-    'ValidationPatience',30,...                         %5
+    'ValidationFrequency',20,...                        %30
+    'ValidationPatience',100,...                        %5
     'InitialLearnRate',0.0001,...                       %0.001
     'LearnRateSchedule','piecewise',...                 %piecewise
     'LearnRateDropPeriod', 4 ...                        %2
@@ -100,14 +94,14 @@ lgraph = connectLayers(lgraph,'pool5','fc');
 % lgraph = connectLayers(lgraph,'avg_pool','fc');
 
 %% TRAINING
-
-
 disp(" 2x")
 
 netTransfer = trainNetwork(training_imgs, training_lbls, lgraph, options);
 
 [outclass, score{fold}] =  classify(netTransfer,test_imgs);
-accuracy = sum(outclass == transpose(test_lbls))/numel(outclass)*100
+accuracy = sum(outclass' == test_lbls)/size(test_lbls,2)
+accuracy = [1:num_classes;histcounts(outclass((test_lbls' == outclass)))./histcounts(outclass)]
+
 %% Checking features
 
 img = training_imgs(:,:,:,1);
@@ -116,16 +110,12 @@ Y = classify(netTransfer,img);
 map = imageLIME(netTransfer,img,Y);
 imshow(img,'InitialMagnification',150)
 hold on
-imagesc(map,'AlphaData',0.4)
+imagesc(map,'AlphaData',0.5)
 colormap jet
 colorbar
 
-title(sprintf("Image LIME (%s)", ...
-    Y))
 hold off
 %% checking 2
-
-
 map = imageLIME(netTransfer,img,Y, ...
     "Segmentation","grid",...
     "OutputUpsampling","bicubic",...
@@ -137,7 +127,4 @@ imshow(img,'InitialMagnification', 150)
 hold on
 imagesc(map,'AlphaData',0.5)
 colormap jet
-
-title(sprintf("Image LIME (%s - linear model)", ...
-    Y))
 hold off
