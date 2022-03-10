@@ -4,7 +4,7 @@ clear all
 close all force
 warning off
 
-load('paintings.mat','DATA');%to load the dataset used in this example
+load('bark-reduction.mat','DATA');%to load the dataset used in this example
 
 IMGS = DATA{1}; %tutte le immagini
 LBLS = DATA{2}; %tutti i label
@@ -15,7 +15,7 @@ DIM = DATA{5};  %numero totale di immagini presenti
 %% DATA MANIPULATION
 
 im_dim=[224 224];%input size of ResNet50
-fold = 2; %DECIDI QUALE FOLD UTILIZZARE PER GLI INDICI
+fold = 1; %DECIDI QUALE FOLD UTILIZZARE PER GLI INDICI
 num_classes = max(LBLS); %numero di classi di dati
 
 tr_data_sz = DIVS(fold); %numero di immagini per il training
@@ -43,19 +43,18 @@ test_lbls = categorical(test_lbls);
 %% DATA AUGMENTATION
 append=1;%da dove partire a inserire immagini
 
-iterations = 1; %cambiare prima di ogni chiamata a file per modificare il numero di immagini generate
+iterations = 0; %cambiare prima di ogni chiamata a file per modificare il numero di immagini generate
 interval = [1:tr_data_sz];%intervallo da cui campionare immagini
 
 %inserire augmentation potenzialmente modificando append, iterations e interval
-ColorShift;
-
-training_imgs = training_imgs(:,:,:,tr_data_sz+1:size(training_lbls,2));
-training_lbls = training_lbls(tr_data_sz+1:size(training_lbls,2));
+Mixingtest;
+%training_imgs = training_imgs(:,:,:,tr_data_sz+1:size(training_lbls,2));
+%training_lbls = training_lbls(tr_data_sz+1:size(training_lbls,2));
 %% TRAINING OPTIONS
 
 options = trainingOptions('adam',...                    %sgdm
-    'Plots','none',...                 %training-progress
-    'Verbose', false,...                                 %false
+    'Plots','training-progress',...                 %training-progress
+    'Verbose', false,...                                %false                          
     'MaxEpochs', 9,...                                  %20
     'MiniBatchSize', 30,...                             %30
     'Shuffle', 'every-epoch',...                        %every-epoch
@@ -64,11 +63,10 @@ options = trainingOptions('adam',...                    %sgdm
     'ValidationPatience',100,...                        %5
     'InitialLearnRate',0.0001,...                       %0.001
     'LearnRateSchedule','piecewise',...                 %piecewise
-    'LearnRateDropPeriod', 4 ...                        %2
+    'LearnRateDropPeriod', 5 ...                        %2
 );
 
 %% NETWORK MANIPULATION
-
 
 %To retrain the network on a new classification task, follow the steps of Transfer Learning .
 %Load the ResNet-50 model and change the names of the layers that you remove and connect
@@ -94,7 +92,7 @@ lgraph = connectLayers(lgraph,'pool5','fc');
 % lgraph = connectLayers(lgraph,'avg_pool','fc');
 
 %% TRAINING
-disp(" 2x")
+disp("Mixing 3x")
 
 netTransfer = trainNetwork(training_imgs, training_lbls, lgraph, options);
 
@@ -116,6 +114,8 @@ colorbar
 
 hold off
 %% checking 2
+img = test_imgs(:,:,:,20);
+Y = classify(netTransfer,img);
 map = imageLIME(netTransfer,img,Y, ...
     "Segmentation","grid",...
     "OutputUpsampling","bicubic",...
@@ -127,4 +127,5 @@ imshow(img,'InitialMagnification', 150)
 hold on
 imagesc(map,'AlphaData',0.5)
 colormap jet
+colorbar
 hold off

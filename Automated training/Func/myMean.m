@@ -1,0 +1,3 @@
+function meanVal = myMean(v)
+    meanVal = sum(v)/size(v,1); %impiega meno di metà del tempo di quella di matlab...
+end
