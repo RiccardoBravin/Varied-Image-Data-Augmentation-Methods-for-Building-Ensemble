@@ -1,6 +1,6 @@
 
 append=1;%da dove partire a inserire immagini
-iterations = 1; %cambiare prima di ogni chiamata a file per modificare il numero di immagini generate
+iterations = 4; %cambiare prima di ogni chiamata a file per modificare il numero di immagini generate
 interval = [1:tr_data_sz];%intervallo da cui campionare immagini
 
 types = {'gauss','average','disk','log','motion'};
@@ -21,7 +21,7 @@ for pattern = interval
         end
 
         %dehaze
-        if rand() < 0.1
+        if rand() < 0.01
             mod = true;
             img = imreducehaze(img, rand()/2+0.5);
         end
@@ -33,14 +33,14 @@ for pattern = interval
         end
 
         %color variation
-        if rand() < 0.2
+        if rand() < 0.1
             mod = true;
             img = color_variation(img, randi([-40,40]),randi([-40,40]),randi([-40,40]));
         end
 
 
         %denoise
-        if rand() < 0.2
+        if rand() < 0.05
             mod = true;
             R = medfilt2(img(:,:,1));
             G = medfilt2(img(:,:,2));
@@ -50,7 +50,7 @@ for pattern = interval
         end
 
         %color reduction
-        if rand() < 0.2
+        if rand() < 0.1
             mod = true;
             [IND,map] = rgb2ind(img, randi([16,64]),'nodither');
             img = uint8(ind2rgb(IND,map)*255);
@@ -58,7 +58,7 @@ for pattern = interval
 
 
         %project
-        if rand() < 0.2
+        if rand() < 0.0
             mod = true;
             T = [1              rand()/2-0.25 rand()/1000000;
                 rand()/2-0.25   1             rand()/10000;
@@ -69,7 +69,7 @@ for pattern = interval
         end
 
         %superpixel
-        if rand() < 0.1
+        if rand() < 0.3
             mod = true;
             [L,N] = superpixels(img, randi([3000 5000])); %genera una matrice L e il numero di superpixel ottenuti
 
@@ -90,25 +90,25 @@ for pattern = interval
         end
 
         %RandXReflection
-        if rand() < 0.2
+        if rand() < 0.1
             mod = true;
             img = flip(img,1);
         end
 
         %RandYReflection
-        if rand() < 0.2
+        if rand() < 0.1
             mod = true;
             img = flip(img,2);
         end
 
         %negative
-        if rand() < 0.05
+        if rand() < 0.01
             mod = true;
             img(:,:,:)= 255 - training_imgs(:,:,:,pattern);
         end
 
         %channel removal
-        if rand() < 0.01
+        if rand() < 0.00
             mod = true;
             img(:,:,randi([1,3])) = 0;
         end
@@ -134,7 +134,7 @@ for pattern = interval
         end
 
     %histogram equalization
-        if rand() < 0.2
+        if rand() < 0.1
             mod = true;
             his = imhist(training_imgs(:,:,:,randi([interval(1), interval(length(interval))])));
             img = histeq(img,his);

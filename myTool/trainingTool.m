@@ -4,7 +4,7 @@ clear all
 close all force
 warning off
 
-load('bark-reduction.mat','DATA');%to load the dataset used in this example
+load('paintings.mat','DATA');%to load the dataset used in this example
 
 IMGS = DATA{1}; %tutte le immagini
 LBLS = DATA{2}; %tutti i label
@@ -43,11 +43,12 @@ test_lbls = categorical(test_lbls);
 %% DATA AUGMENTATION
 append=1;%da dove partire a inserire immagini
 
-iterations = 0; %cambiare prima di ogni chiamata a file per modificare il numero di immagini generate
+iterations = 2; %cambiare prima di ogni chiamata a file per modificare il numero di immagini generate
 interval = [1:tr_data_sz];%intervallo da cui campionare immagini
 
 %inserire augmentation potenzialmente modificando append, iterations e interval
-Mixingtest;
+%PixelShuffle;
+
 %training_imgs = training_imgs(:,:,:,tr_data_sz+1:size(training_lbls,2));
 %training_lbls = training_lbls(tr_data_sz+1:size(training_lbls,2));
 %% TRAINING OPTIONS
@@ -114,7 +115,7 @@ colorbar
 
 hold off
 %% checking 2
-img = test_imgs(:,:,:,20);
+img = test_imgs(:,:,:,1);
 Y = classify(netTransfer,img);
 map = imageLIME(netTransfer,img,Y, ...
     "Segmentation","grid",...

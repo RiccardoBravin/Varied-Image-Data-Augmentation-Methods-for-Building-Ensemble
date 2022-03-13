@@ -51,7 +51,7 @@ options = trainingOptions('adam',...                    %sgdm
     'ValidationPatience',100,...                        %5
     'InitialLearnRate',0.0001,...                       %0.001
     'LearnRateSchedule','piecewise',...                 %piecewise
-    'LearnRateDropPeriod', 4 ...                        %5
+    'LearnRateDropPeriod', 5 ...                        %5
 );
 
 %% NETWORK MANIPULATION
@@ -90,9 +90,6 @@ netTransfer = trainNetwork(training_imgs, training_lbls, lgraph, options); %trai
 accuracy{1,acc_i} = "No augmentation";
 accuracy{2,acc_i} = sum(outclass' == test_lbls)/size(test_lbls,2);
 accuracy{3,acc_i} = [1:num_classes;histcounts(outclass((test_lbls' == outclass)))./histcounts(outclass)];
-
-training_imgs = training_imgs_bk;
-training_lbls = training_lbls_bk;
 
 %% Test 1
 
@@ -158,6 +155,42 @@ netTransfer = trainNetwork(training_imgs, training_lbls, lgraph, options); %trai
 [outclass, score{fold}] =  classify(netTransfer,test_imgs); %classification with test images
 
 accuracy{1,acc_i} = "All x3";
+accuracy{2,acc_i} = sum(outclass' == test_lbls)/size(test_lbls,2);
+accuracy{3,acc_i} = [1:num_classes;histcounts(outclass((test_lbls' == outclass)))./histcounts(outclass)];
+acc_i = acc_i+1;
+
+training_imgs = training_imgs_bk;
+training_lbls = training_lbls_bk;
+
+%% Test 5
+
+acc_i = acc_i+1;
+
+disp("Test 5");
+Test5;
+netTransfer = trainNetwork(training_imgs, training_lbls, lgraph, options); %training with modified dataset
+
+[outclass, score{fold}] =  classify(netTransfer,test_imgs); %classification with test images
+
+accuracy{1,acc_i} = "All x3";
+accuracy{2,acc_i} = sum(outclass' == test_lbls)/size(test_lbls,2);
+accuracy{3,acc_i} = [1:num_classes;histcounts(outclass((test_lbls' == outclass)))./histcounts(outclass)];
+acc_i = acc_i+1;
+
+training_imgs = training_imgs_bk;
+training_lbls = training_lbls_bk;
+
+%% Test 6
+
+acc_i = acc_i+1;
+
+disp("Test 6");
+Test6;
+netTransfer = trainNetwork(training_imgs, training_lbls, lgraph, options); %training with modified dataset
+
+[outclass, score{fold}] =  classify(netTransfer,test_imgs); %classification with test images
+
+accuracy{1,acc_i} = "Color x3";
 accuracy{2,acc_i} = sum(outclass' == test_lbls)/size(test_lbls,2);
 accuracy{3,acc_i} = [1:num_classes;histcounts(outclass((test_lbls' == outclass)))./histcounts(outclass)];
 acc_i = acc_i+1;
