@@ -1,9 +1,8 @@
-
 append=1;%da dove partire a inserire immagini
-iterations = 4; %cambiare prima di ogni chiamata a file per modificare il numero di immagini generate
+iterations = 1; %cambiare prima di ogni chiamata a file per modificare il numero di immagini generate
 interval = [1:tr_data_sz];%intervallo da cui campionare immagini
 
-types = {'gauss','average','disk','log','motion'};
+types = {'gauss','average','disk','log'};
 
 for pattern = interval
     i = 1;
@@ -21,7 +20,7 @@ for pattern = interval
         end
 
         %dehaze
-        if rand() < 0.01
+        if rand() < 0.1
             mod = true;
             img = imreducehaze(img, rand()/2+0.5);
         end
@@ -29,18 +28,18 @@ for pattern = interval
         %deform
         if rand() < 0.5
             mod = true;
-            img = elasticDeformation(img, types(randi([1,5])), randi([500,1000]));
+            img = elasticDeformation(img, types(randi([1,4])), randi([700,1500]));
         end
 
         %color variation
-        if rand() < 0.1
+        if rand() < 0.2
             mod = true;
             img = color_variation(img, randi([-40,40]),randi([-40,40]),randi([-40,40]));
         end
 
 
         %denoise
-        if rand() < 0.05
+        if rand() < 0.2
             mod = true;
             R = medfilt2(img(:,:,1));
             G = medfilt2(img(:,:,2));
@@ -50,7 +49,7 @@ for pattern = interval
         end
 
         %color reduction
-        if rand() < 0.1
+        if rand() < 0.2
             mod = true;
             [IND,map] = rgb2ind(img, randi([16,64]),'nodither');
             img = uint8(ind2rgb(IND,map)*255);
@@ -58,7 +57,7 @@ for pattern = interval
 
 
         %project
-        if rand() < 0.0
+        if rand() < 0.2
             mod = true;
             T = [1              rand()/2-0.25 rand()/1000000;
                 rand()/2-0.25   1             rand()/10000;
@@ -69,7 +68,7 @@ for pattern = interval
         end
 
         %superpixel
-        if rand() < 0.3
+        if rand() < 0.1
             mod = true;
             [L,N] = superpixels(img, randi([3000 5000])); %genera una matrice L e il numero di superpixel ottenuti
 
@@ -90,25 +89,25 @@ for pattern = interval
         end
 
         %RandXReflection
-        if rand() < 0.1
+        if rand() < 0.2
             mod = true;
             img = flip(img,1);
         end
 
         %RandYReflection
-        if rand() < 0.1
+        if rand() < 0.2
             mod = true;
             img = flip(img,2);
         end
 
         %negative
-        if rand() < 0.01
+        if rand() < 0.05
             mod = true;
             img(:,:,:)= 255 - training_imgs(:,:,:,pattern);
         end
 
         %channel removal
-        if rand() < 0.00
+        if rand() < 0.01
             mod = true;
             img(:,:,randi([1,3])) = 0;
         end
@@ -133,13 +132,36 @@ for pattern = interval
             img = insertShape(img,'line',lns,'LineWidth',5,"Color","black");
         end
 
-    %histogram equalization
-        if rand() < 0.1
+        %histogram equalization
+        if rand() < 0.2
             mod = true;
             his = imhist(training_imgs(:,:,:,randi([interval(1), interval(length(interval))])));
             img = histeq(img,his);
         end
 
+        %hue jitter
+        if rand() < 0.3
+            mod = true;
+            img = jitterColorHSV(img,'Hue',[0.05 0.15]);
+        end
+
+        %Saturation jitter
+        if rand() < 0.3
+            mod = true;
+            img = jitterColorHSV(img,'Saturation',[-0.4 -0.1]);
+        end
+
+        %Brightness jitter
+        if rand() < 0.3
+            mod = true;
+            img = jitterColorHSV(img,'Brightness',[-0.3 -0.1]);
+        end
+
+        %Contrast jitter
+        if rand() < 0.3
+            mod = true;
+            img = jitterColorHSV(img,'Contrast',[1.2 1.4]);
+        end
 
 
         if mod %add the image only if it has been modified
@@ -151,5 +173,8 @@ for pattern = interval
     end
 end
 
-clearvars i pattern img T distanceImage IND map redIdx greenIdx blueIdx im_result idx R G B
+clearvars i pattern img T distanceImage IND map redIdx greenIdx blueIdx im_result idx R G B 
+clearvars squareSizeX squareX rangeX1 squareSizeY squareY rangeY1 rangeX2 rangeY2 x y h k im_result
+clearvars append iterations inverval his I j L Ins mod N pos types vec
+
 
