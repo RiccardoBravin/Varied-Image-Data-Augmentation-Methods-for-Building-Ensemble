@@ -12,7 +12,12 @@ DIVS = DATA{4}; %divisori per gli indici
 DIM  = DATA{5}; %numero totale di immagini presenti
 
 %% TESTING
-for fold = [2:size(DIVS,2)]
+
+if size(DIVS,2) <= 1
+    error("The number of folds in the dataset is not big enough for this test")
+end
+
+for fold = [1:size(DIVS,2)]
     automatedTraining;
     accuracy
 end
