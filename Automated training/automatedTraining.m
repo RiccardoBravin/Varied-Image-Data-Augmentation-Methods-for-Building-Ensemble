@@ -84,7 +84,6 @@ netTransfer = trainNetwork(training_imgs, training_lbls, lgraph, options); %trai
 accuracy{1,acc_i} = "PixelShuffle x1";
 accuracy{2,acc_i} = sum(outclass' == test_lbls)/size(test_lbls,2);
 accuracy{3,acc_i} = [1:num_classes;histcounts(outclass((test_lbls' == outclass)))./histcounts(outclass)];
-acc_i = acc_i+1;
 
 training_imgs = training_imgs_bk;
 training_lbls = training_lbls_bk;
@@ -102,7 +101,6 @@ netTransfer = trainNetwork(training_imgs, training_lbls, lgraph, options); %trai
 accuracy{1,acc_i} = "ContentFill x2";
 accuracy{2,acc_i} = sum(outclass' == test_lbls)/size(test_lbls,2);
 accuracy{3,acc_i} = [1:num_classes;histcounts(outclass((test_lbls' == outclass)))./histcounts(outclass)];
-acc_i = acc_i+1;
 
 training_imgs = training_imgs_bk;
 training_lbls = training_lbls_bk;
@@ -120,7 +118,6 @@ netTransfer = trainNetwork(training_imgs, training_lbls, lgraph, options); %trai
 accuracy{1,acc_i} = "Superpixel x1";
 accuracy{2,acc_i} = sum(outclass' == test_lbls)/size(test_lbls,2);
 accuracy{3,acc_i} = [1:num_classes;histcounts(outclass((test_lbls' == outclass)))./histcounts(outclass)];
-acc_i = acc_i+1;
 
 training_imgs = training_imgs_bk;
 training_lbls = training_lbls_bk;
@@ -138,7 +135,6 @@ netTransfer = trainNetwork(training_imgs, training_lbls, lgraph, options); %trai
 accuracy{1,acc_i} = "Deformation x2";
 accuracy{2,acc_i} = sum(outclass' == test_lbls)/size(test_lbls,2);
 accuracy{3,acc_i} = [1:num_classes;histcounts(outclass((test_lbls' == outclass)))./histcounts(outclass)];
-acc_i = acc_i+1;
 
 training_imgs = training_imgs_bk;
 training_lbls = training_lbls_bk;
@@ -156,11 +152,9 @@ netTransfer = trainNetwork(training_imgs, training_lbls, lgraph, options); %trai
 accuracy{1,acc_i} = "ColorReduction x1";
 accuracy{2,acc_i} = sum(outclass' == test_lbls)/size(test_lbls,2);
 accuracy{3,acc_i} = [1:num_classes;histcounts(outclass((test_lbls' == outclass)))./histcounts(outclass)];
-acc_i = acc_i+1;
 
 training_imgs = training_imgs_bk;
 training_lbls = training_lbls_bk;
-
 
 %% SingleAug 6
 
@@ -175,7 +169,6 @@ netTransfer = trainNetwork(training_imgs, training_lbls, lgraph, options); %trai
 accuracy{1,acc_i} = "Project x2";
 accuracy{2,acc_i} = sum(outclass' == test_lbls)/size(test_lbls,2);
 accuracy{3,acc_i} = [1:num_classes;histcounts(outclass((test_lbls' == outclass)))./histcounts(outclass)];
-acc_i = acc_i+1;
 
 training_imgs = training_imgs_bk;
 training_lbls = training_lbls_bk;
@@ -193,7 +186,6 @@ netTransfer = trainNetwork(training_imgs, training_lbls, lgraph, options); %trai
 accuracy{1,acc_i} = "all New x2";
 accuracy{2,acc_i} = sum(outclass' == test_lbls)/size(test_lbls,2);
 accuracy{3,acc_i} = [1:num_classes;histcounts(outclass((test_lbls' == outclass)))./histcounts(outclass)];
-acc_i = acc_i+1;
 
 training_imgs = training_imgs_bk;
 training_lbls = training_lbls_bk;
@@ -210,7 +202,6 @@ netTransfer = trainNetwork(training_imgs, training_lbls, lgraph, options); %trai
 accuracy{1,acc_i} = "All x2";
 accuracy{2,acc_i} = sum(outclass' == test_lbls)/size(test_lbls,2);
 accuracy{3,acc_i} = [1:num_classes;histcounts(outclass((test_lbls' == outclass)))./histcounts(outclass)];
-acc_i = acc_i+1;
 
 training_imgs = training_imgs_bk;
 training_lbls = training_lbls_bk;
@@ -228,7 +219,6 @@ netTransfer = trainNetwork(training_imgs, training_lbls, lgraph, options); %trai
 accuracy{1,acc_i} = "New cascade x1";
 accuracy{2,acc_i} = sum(outclass' == test_lbls)/size(test_lbls,2);
 accuracy{3,acc_i} = [1:num_classes;histcounts(outclass((test_lbls' == outclass)))./histcounts(outclass)];
-acc_i = acc_i+1;
 
 training_imgs = training_imgs_bk;
 training_lbls = training_lbls_bk;

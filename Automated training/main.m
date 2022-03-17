@@ -14,4 +14,5 @@ DIM  = DATA{5}; %numero totale di immagini presenti
 %% TESTING
 for fold = [1:size(DIVS,2)]
     automatedTraining;
+    accuracy
 end
