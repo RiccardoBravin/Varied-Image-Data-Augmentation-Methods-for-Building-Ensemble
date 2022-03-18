@@ -20,4 +20,6 @@ end
 for fold = [1:size(DIVS,2)]
     automatedTraining;
     accuracy
+    clearvars accuracy
+    close all force
 end
