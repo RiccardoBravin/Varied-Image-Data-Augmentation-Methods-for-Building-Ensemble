@@ -32,7 +32,7 @@ training_lbls_bk = training_lbls;
 options = trainingOptions('adam',...                    %sgdm
     'Plots','training-progress',...                     %training-progress
     'Verbose', false,...                                %false                          
-    'MaxEpochs', 9,...                                  %20
+    'MaxEpochs', 7,...                                  %20
     'MiniBatchSize', 50,...                             %30
     'Shuffle', 'every-epoch',...                        %every-epoch
     'ValidationData', {test_imgs, test_lbls},...        %
@@ -63,6 +63,7 @@ lgraph = connectLayers(lgraph,'pool5','fc');
 acc_i = 1;
 
 disp("No augmentation");
+
 netTransfer = trainNetwork(training_imgs, training_lbls, lgraph, options); %training with dataset
 
 [outclass, score{fold}] =  classify(netTransfer,test_imgs); %classification with test images
