@@ -1,5 +1,5 @@
 append = 1;%da dove partire a inserire immagini
-iterations = 2; %cambiare prima di ogni chiamata a file per modificare il numero di immagini generate
+iterations = 1; %cambiare prima di ogni chiamata a file per modificare il numero di immagini generate
 interval = [1:tr_data_sz];%intervallo da cui campionare immagini
 
 for pattern = interval
@@ -42,5 +42,5 @@ for pattern = interval
     end
 end
 
-clearvars i pattern img R G B X ind
+clearvars i pattern img R G B I mag phs
 

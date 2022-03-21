@@ -32,12 +32,12 @@ training_lbls_bk = training_lbls;
 options = trainingOptions('adam',...                    %sgdm
     'Plots','training-progress',...                     %training-progress
     'Verbose', false,...                                %false                          
-    'MaxEpochs', 7,...                                  %20
+    'MaxEpochs', 9,...                                  %20
     'MiniBatchSize', 50,...                             %30
     'Shuffle', 'every-epoch',...                        %every-epoch
     'ValidationData', {test_imgs, test_lbls},...        %
     'ValidationFrequency',30,...                        %30
-    'ValidationPatience',100,...                        %5
+    'ValidationPatience',20,...                        %5
     'InitialLearnRate',0.0001,...                       %0.001
     'LearnRateSchedule','piecewise',...                 %piecewise
     'LearnRateDropPeriod', 5 ...                        %5
@@ -174,6 +174,91 @@ accuracy{3,acc_i} = [1:num_classes;histcounts(outclass((test_lbls' == outclass))
 training_imgs = training_imgs_bk;
 training_lbls = training_lbls_bk;
 
+%% SingleAug 7
+
+acc_i = acc_i+1;
+
+disp("FastFourierTransform");
+FFT_2;
+netTransfer = trainNetwork(training_imgs, training_lbls, lgraph, options); %training with modified dataset
+
+[outclass, score{fold}] =  classify(netTransfer,test_imgs); %classification with test images
+
+accuracy{1,acc_i} = "FFT_2 x2";
+accuracy{2,acc_i} = sum(outclass' == test_lbls)/size(test_lbls,2);
+accuracy{3,acc_i} = [1:num_classes;histcounts(outclass((test_lbls' == outclass)))./histcounts(outclass)];
+
+training_imgs = training_imgs_bk;
+training_lbls = training_lbls_bk;
+
+%% SingleAug 8
+
+acc_i = acc_i+1;
+
+disp("Deconvolution");
+Deconvolution;
+netTransfer = trainNetwork(training_imgs, training_lbls, lgraph, options); %training with modified dataset
+
+[outclass, score{fold}] =  classify(netTransfer,test_imgs); %classification with test images
+
+accuracy{1,acc_i} = "deconvolution x1";
+accuracy{2,acc_i} = sum(outclass' == test_lbls)/size(test_lbls,2);
+accuracy{3,acc_i} = [1:num_classes;histcounts(outclass((test_lbls' == outclass)))./histcounts(outclass)];
+
+training_imgs = training_imgs_bk;
+training_lbls = training_lbls_bk;
+%% SingleAug 9
+
+acc_i = acc_i+1;
+
+disp("Decorrelation");
+DecorrStretch;
+netTransfer = trainNetwork(training_imgs, training_lbls, lgraph, options); %training with modified dataset
+
+[outclass, score{fold}] =  classify(netTransfer,test_imgs); %classification with test images
+
+accuracy{1,acc_i} = "DecorrStretch x1";
+accuracy{2,acc_i} = sum(outclass' == test_lbls)/size(test_lbls,2);
+accuracy{3,acc_i} = [1:num_classes;histcounts(outclass((test_lbls' == outclass)))./histcounts(outclass)];
+
+training_imgs = training_imgs_bk;
+training_lbls = training_lbls_bk;
+
+%% SingleAug 10
+
+acc_i = acc_i+1;
+
+disp("ColorspaceChange");
+ColorspaceChange;
+netTransfer = trainNetwork(training_imgs, training_lbls, lgraph, options); %training with modified dataset
+
+[outclass, score{fold}] =  classify(netTransfer,test_imgs); %classification with test images
+
+accuracy{1,acc_i} = "ColorspaceChange x1";
+accuracy{2,acc_i} = sum(outclass' == test_lbls)/size(test_lbls,2);
+accuracy{3,acc_i} = [1:num_classes;histcounts(outclass((test_lbls' == outclass)))./histcounts(outclass)];
+
+training_imgs = training_imgs_bk;
+training_lbls = training_lbls_bk;
+
+%% SingleAug 11
+
+acc_i = acc_i+1;
+
+disp("Classic");
+Classic;
+netTransfer = trainNetwork(training_imgs, training_lbls, lgraph, options); %training with modified dataset
+
+[outclass, score{fold}] =  classify(netTransfer,test_imgs); %classification with test images
+
+accuracy{1,acc_i} = "Classic x1";
+accuracy{2,acc_i} = sum(outclass' == test_lbls)/size(test_lbls,2);
+accuracy{3,acc_i} = [1:num_classes;histcounts(outclass((test_lbls' == outclass)))./histcounts(outclass)];
+
+training_imgs = training_imgs_bk;
+training_lbls = training_lbls_bk;
+
+
 %% Combined 1
 
 acc_i = acc_i+1;
@@ -224,7 +309,36 @@ accuracy{3,acc_i} = [1:num_classes;histcounts(outclass((test_lbls' == outclass))
 training_imgs = training_imgs_bk;
 training_lbls = training_lbls_bk;
 
+%% Combined 4
+acc_i = acc_i+1;
 
+disp("Cascade negative, colorpace e project");
+Test4;
+netTransfer = trainNetwork(training_imgs, training_lbls, lgraph, options); %training with modified dataset
+
+[outclass, score{fold}] =  classify(netTransfer,test_imgs); %classification with test images
+
+accuracy{1,acc_i} = "cascade negative,colorspace,project x1";
+accuracy{2,acc_i} = sum(outclass' == test_lbls)/size(test_lbls,2);
+accuracy{3,acc_i} = [1:num_classes;histcounts(outclass((test_lbls' == outclass)))./histcounts(outclass)];
+
+training_imgs = training_imgs_bk;
+training_lbls = training_lbls_bk;
+%% Combined 5
+acc_i = acc_i+1;
+
+disp("Cascade superpixel,deform,color reduction,corrstretch,denoise,color variation, project");
+Test5;
+netTransfer = trainNetwork(training_imgs, training_lbls, lgraph, options); %training with modified dataset
+
+[outclass, score{fold}] =  classify(netTransfer,test_imgs); %classification with test images
+
+accuracy{1,acc_i} = "superpixel,deform,color reduction,corrstretch,denoise,color variation, project x1";
+accuracy{2,acc_i} = sum(outclass' == test_lbls)/size(test_lbls,2);
+accuracy{3,acc_i} = [1:num_classes;histcounts(outclass((test_lbls' == outclass)))./histcounts(outclass)];
+
+training_imgs = training_imgs_bk;
+training_lbls = training_lbls_bk;
 %% Saving results
 
-save(strcat("paintings_fold", num2str(fold), "_accuracy.mat"),"accuracy");
+save(strcat("bark_fold", num2str(fold), "_accuracy.mat"),"accuracy");

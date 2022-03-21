@@ -10,7 +10,7 @@ for pattern = interval
         
         img = color_variation(img, randi([-40,40]),randi([-40,40]),randi([-40,40]));
         
-        montage({training_imgs(:,:,:,pattern), img});pause(1);
+        %montage({training_imgs(:,:,:,pattern), img});pause(1);
 
         training_imgs(:,:,:,tr_data_sz+append) = img;
         training_lbls(tr_data_sz+append)=training_lbls(pattern);

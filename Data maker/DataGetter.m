@@ -3,11 +3,11 @@ clear all
 close all force
 warning off
 
-string = 'C:\Users\Riccardo-Bravin\Desktop\Tesin\Data maker\Bark-101-reduction\';
+string = 'C:\Users\Riccardo Bravin\Desktop\NN_image_augmentation\Data maker\Bark-101-reduction\';
 
 pos = 1;
 
-for i = 0 : 100
+for i = 0 : 10
     directory = strcat(string, num2str(i), "\*.jpg");
     files = dir(directory);
     dim = length(files);
@@ -63,3 +63,7 @@ DATA{2} = labels;
 DATA{3} = cell2mat([training_labels test_labels]);
 DATA{4} = [length(training_labels)];
 DATA{5} = length(imgs);
+
+%%
+%DATA1{3}{1,:} = DATA2{3};
+

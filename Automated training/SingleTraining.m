@@ -4,7 +4,7 @@ clear all
 close all force
 warning off
 
-load('paintings.mat','DATA');%to load the dataset used in this example
+load('DatasColor_65.mat','DATA');%to load the dataset used in this example
 
 IMGS = DATA{1}; %tutte le immagini
 LBLS = DATA{2}; %tutti i label
@@ -40,31 +40,20 @@ end
 test_lbls = LBLS(PATS(fold,tr_data_sz+1:DIM)); %lables for the test images
 test_lbls = categorical(test_lbls);
 
-%% DATA AUGMENTATION
-append=1;%da dove partire a inserire immagini
-
-iterations = 2; %cambiare prima di ogni chiamata a file per modificare il numero di immagini generate
-interval = [1:tr_data_sz];%intervallo da cui campionare immagini
-
-%inserire augmentation potenzialmente modificando append, iterations e interval
-%PixelShuffle;
-
-%training_imgs = training_imgs(:,:,:,tr_data_sz+1:size(training_lbls,2));
-%training_lbls = training_lbls(tr_data_sz+1:size(training_lbls,2));
 %% TRAINING OPTIONS
 
 options = trainingOptions('adam',...                    %sgdm
-    'Plots','training-progress',...                 %training-progress
+    'Plots','training-progress',...                     %training-progress
     'Verbose', false,...                                %false                          
-    'MaxEpochs', 9,...                                  %20
-    'MiniBatchSize', 30,...                             %30
+    'MaxEpochs', 7,...                                  %20
+    'MiniBatchSize', 50,...                             %30
     'Shuffle', 'every-epoch',...                        %every-epoch
     'ValidationData', {test_imgs, test_lbls},...        %
-    'ValidationFrequency',20,...                        %30
-    'ValidationPatience',100,...                        %5
+    'ValidationFrequency',10,...                        %30
+    'ValidationPatience',20,...                        %5
     'InitialLearnRate',0.0001,...                       %0.001
     'LearnRateSchedule','piecewise',...                 %piecewise
-    'LearnRateDropPeriod', 5 ...                        %2
+    'LearnRateDropPeriod', 5 ...                        %5
 );
 
 %% NETWORK MANIPULATION
@@ -92,41 +81,48 @@ lgraph = connectLayers(lgraph,'pool5','fc');
 % lgraph = addLayers(lgraph,newLayers);
 % lgraph = connectLayers(lgraph,'avg_pool','fc');
 
+acc_i = 1;
 %% TRAINING
-disp("Mixing 3x")
+
+disp("Colorspace change 1x")
+ColorspaceChange;
 
 netTransfer = trainNetwork(training_imgs, training_lbls, lgraph, options);
 
 [outclass, score{fold}] =  classify(netTransfer,test_imgs);
-accuracy = sum(outclass' == test_lbls)/size(test_lbls,2)
-accuracy = [1:num_classes;histcounts(outclass((test_lbls' == outclass)))./histcounts(outclass)]
 
-%% Checking features
+accuracy{1,acc_i} = "All x2";
+accuracy{2,acc_i} = sum(outclass' == test_lbls)/size(test_lbls,2);
+accuracy{3,acc_i} = [1:num_classes;histcounts(outclass((test_lbls' == outclass)))./histcounts(outclass)];
 
-img = training_imgs(:,:,:,1);
-Y = classify(netTransfer,img);
+acc_i = acc_i+1;
 
-map = imageLIME(netTransfer,img,Y);
-imshow(img,'InitialMagnification',150)
-hold on
-imagesc(map,'AlphaData',0.5)
-colormap jet
-colorbar
-
-hold off
-%% checking 2
-img = test_imgs(:,:,:,1);
-Y = classify(netTransfer,img);
-map = imageLIME(netTransfer,img,Y, ...
-    "Segmentation","grid",...
-    "OutputUpsampling","bicubic",...
-    "NumFeatures",100,...
-    "NumSamples",6000,...
-    "Model","linear");
-
-imshow(img,'InitialMagnification', 150)
-hold on
-imagesc(map,'AlphaData',0.5)
-colormap jet
-colorbar
-hold off
+% %% Checking features
+% 
+% img = training_imgs(:,:,:,1);
+% Y = classify(netTransfer,img);
+% 
+% map = imageLIME(netTransfer,img,Y);
+% imshow(img,'InitialMagnification',150)
+% hold on
+% imagesc(map,'AlphaData',0.5)
+% colormap jet
+% colorbar
+% 
+% hold off
+% %% checking 2
+% img = test_imgs(:,:,:,1);
+% Y = classify(netTransfer,img);
+% map = imageLIME(netTransfer,img,Y, ...
+%     "Segmentation","grid",...
+%     "OutputUpsampling","bicubic",...
+%     "NumFeatures",100,...
+%     "NumSamples",6000,...
+%     "Model","linear");
+% 
+% imshow(img,'InitialMagnification', 150)
+% hold on
+% imagesc(map,'AlphaData',0.5)
+% colormap jet
+% colorbar
+% hold off

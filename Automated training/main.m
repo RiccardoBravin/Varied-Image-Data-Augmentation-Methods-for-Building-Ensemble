@@ -3,7 +3,7 @@ clear all
 close all force
 warning off
 
-load('DatasColor_65.mat','DATA');%to load the dataset used in this example
+load('Bark-reduction.mat',"DATA");%to load the dataset used in this example
 
 IMGS = DATA{1}; %tutte le immagini
 LBLS = DATA{2}; %tutti i label
@@ -19,6 +19,7 @@ end
 
 for fold = [1:size(DIVS,2)]
     automatedTraining;
+    disp(["iteration ",num2str(fold)]);
     accuracy
     clearvars accuracy
     close all force
