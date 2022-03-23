@@ -1,7 +1,6 @@
 %% DATA MANIPULATION
 
 im_dim=[224 224];%input size of ResNet18
-%fold = 1; %DECIDI QUALE FOLD UTILIZZARE PER GLI INDICI
 num_classes = max(LBLS); %numero di classi di dati
 tr_data_sz = DIVS(fold); %numero di immagini per il training
 

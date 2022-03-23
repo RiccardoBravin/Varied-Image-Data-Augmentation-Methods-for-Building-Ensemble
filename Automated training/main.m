@@ -17,10 +17,25 @@ if size(DIVS,2) <= 1
     error("The number of folds in the dataset is not big enough for this test")
 end
 
-for fold = [1:size(DIVS,2)]
-    automatedTraining;
-    disp(["iteration ",num2str(fold)]);
-    accuracy
-    clearvars accuracy
-    close all force
+for fold = 1:size(DIVS,2)
+    try
+        automatedTraining;
+        disp(strcat("iteration ",num2str(fold)));
+        save(strcat("bark_fold", num2str(fold), "_accuracy.mat"),"accuracy");
+        accuracy
+        clearvars accuracy
+        close all force
+    
+    catch ERRORGENERIC
+        try
+            save(strcat("bark_fold", num2str(fold), "_accuracy.mat"),"accuracy");
+            disp("Program terminated safely");
+            return;
+        catch ERRORSAVE
+            ERRORSAVE
+            error("Program terminated without saving");
+        end
+        ERRORGENERIC
+        error("TERMINATED");
+    end
 end
