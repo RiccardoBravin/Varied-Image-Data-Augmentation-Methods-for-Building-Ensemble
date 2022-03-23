@@ -257,6 +257,24 @@ accuracy{3,acc_i} = [1:num_classes;histcounts(outclass((test_lbls' == outclass))
 training_imgs = training_imgs_bk;
 training_lbls = training_lbls_bk;
 
+%% SingleAug 11
+
+acc_i = acc_i+1;
+
+disp("Laplacian");
+Laplacian;
+netTransfer = trainNetwork(training_imgs, training_lbls, lgraph, options); %training with modified dataset
+
+[outclass, score{fold}] =  classify(netTransfer,test_imgs); %classification with test images
+
+accuracy{1,acc_i} = "Laplacian x1";
+accuracy{2,acc_i} = sum(outclass' == test_lbls)/size(test_lbls,2);
+accuracy{3,acc_i} = [1:num_classes;histcounts(outclass((test_lbls' == outclass)))./histcounts(outclass)];
+
+training_imgs = training_imgs_bk;
+training_lbls = training_lbls_bk;
+
+
 
 %% Combined 1
 
