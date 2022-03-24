@@ -19,8 +19,8 @@ end
 
 for fold = 1:size(DIVS,2)
     try
-        automatedTraining;
         disp(strcat("iteration ",num2str(fold)));
+        automatedTraining;
         save(strcat("bark_fold", num2str(fold), "_accuracy.mat"),"accuracy");
         accuracy
         clearvars accuracy
