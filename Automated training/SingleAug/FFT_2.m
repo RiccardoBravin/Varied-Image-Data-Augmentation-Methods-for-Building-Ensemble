@@ -13,21 +13,21 @@ for pattern = interval
         I = fft2(R);
         mag = abs(I);
         phs = angle(I);
-        mag = mag .* (rand(size(mag)))*2;
+        mag = mag .* ((rand(size(mag)))+0.5);
         I = mag.*exp(1i.*phs);
         R = uint8(abs(ifft2(I)));
         
         I = fft2(G);
         mag = abs(I);
         phs = angle(I);
-        mag = mag .* (rand(size(mag)))*2;
+        mag = mag .* ((rand(size(mag)))+0.5);
         I = mag.*exp(1i.*phs);
         G = uint8(abs(ifft2(I)));
         
         I = fft2(B);
         mag = abs(I);
         phs = angle(I);
-        mag = mag .* (rand(size(mag)))*2;
+        mag = mag .* ((rand(size(mag)))+0.5);
         I = mag.*exp(1i.*phs);
         B = uint8(abs(ifft2(I)));
        
