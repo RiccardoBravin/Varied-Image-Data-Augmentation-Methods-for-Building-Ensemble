@@ -30,12 +30,14 @@ for fold = 1:size(DIVS,2)
         try
             save(strcat("bark_fold", num2str(fold), "_accuracy.mat"),"accuracy");
             disp("Program terminated safely");
+            keyboard;
             return;
         catch ERRORSAVE
             ERRORSAVE
             error("Program terminated without saving");
         end
         ERRORGENERIC
+        keyboard;
         error("TERMINATED");
     end
 end

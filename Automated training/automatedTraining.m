@@ -257,7 +257,7 @@ accuracy{3,acc_i} = [1:num_classes;histcounts(outclass((test_lbls' == outclass))
 training_imgs = training_imgs_bk;
 training_lbls = training_lbls_bk;
 
-%% SingleAug 11
+%% SingleAug 12
 
 acc_i = acc_i+1;
 
@@ -273,8 +273,6 @@ accuracy{3,acc_i} = [1:num_classes;histcounts(outclass((test_lbls' == outclass))
 
 training_imgs = training_imgs_bk;
 training_lbls = training_lbls_bk;
-
-
 
 %% Combined 1
 
