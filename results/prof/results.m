@@ -1,8 +1,8 @@
 for i = 1:10
-    accuracy{i} = load(strcat("paintings_fold", num2str(i), "_accuracy.mat")).accuracy;
+    accuracy{i} = load(strcat("bark_fold", num2str(i), "_accuracy.mat")).accuracy;
 end
 
-for i = 1:10
+for i = 1:size(accuracy{1},2)
     sum = 0;
     for j = 1:10
        sum = sum + accuracy{j}{2,i}; 
