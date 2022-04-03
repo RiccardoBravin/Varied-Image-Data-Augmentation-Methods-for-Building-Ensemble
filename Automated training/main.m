@@ -3,7 +3,7 @@ clear all
 close all force
 warning off
 
-load('Bark-reduction.mat',"DATA");%to load the dataset used in this example
+load('DatasColor_65.mat',"DATA");%to load the dataset used in this example
 
 IMGS = DATA{1}; %tutte le immagini
 LBLS = DATA{2}; %tutti i label
