@@ -85,7 +85,7 @@ acc_i = 1;
 %% TRAINING
 
 disp("Hi")
-Test6;
+Laplacian;
 
 netTransfer = trainNetwork(training_imgs, training_lbls, lgraph, options);
 

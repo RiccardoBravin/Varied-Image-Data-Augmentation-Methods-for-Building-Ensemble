@@ -1,7 +1,7 @@
 try
 
     append = 1;%da dove partire a inserire immagini
-    iterations = 1; %cambiare prima di ogni chiamata a file per modificare il numero di immagini generate
+    iterations = 2; %cambiare prima di ogni chiamata a file per modificare il numero di immagini generate
     interval = [1:tr_data_sz];%intervallo da cui campionare immagini
 
 
@@ -12,14 +12,14 @@ try
 
             rn = randi([1,3]);
             if rn == 1
-                img = locallapfilt(img, rn()/2,rn()/3);
+                img = locallapfilt(img, 0.5,rand()/3);
             elseif rn == 2
-                img = locallapfilt(img, rn()/7,3,'NumIntensityLevels', randi([10,15]));
+                img = locallapfilt(img, 0.2,2.5);
             else
-                img = locallapfilt(img, 0.1,rn()+0.5,rn()+1);
+                img = locallapfilt(img, 255,0.8,0.1);
             end
 
-            %montage({training_imgs(:,:,:,pattern), img}); pause(1);
+            %montage({training_imgs(:,:,:,pattern), img}); pause(0.5);
 
             training_imgs(:,:,:,tr_data_sz+append) = img;
             training_lbls(tr_data_sz+append)=training_lbls(pattern);
@@ -30,7 +30,7 @@ try
     end
 
 catch ERROR
-    ERROR;
+    ERROR
     disp("\nDataset could be corrupted, restore it with the training_imgs_bk and lables\n");
     keyboard;
 end
