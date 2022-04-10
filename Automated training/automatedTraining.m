@@ -206,7 +206,7 @@ training_lbls = training_lbls_bk;
 
 acc_i = acc_i+1;
 
-disp("Combined test with all effective methods");
+disp("Cascade of all effective methods");
 Test1;
 netTransfer = trainNetwork(training_imgs, training_lbls, lgraph, options); %training with modified dataset
 
