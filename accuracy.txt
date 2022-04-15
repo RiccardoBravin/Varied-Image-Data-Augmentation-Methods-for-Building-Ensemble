@@ -1,0 +1,37 @@
+
+DatasColor_65 (immagini di quadri di periodi diversi)
+	options=[Optimizer= adam, MaxEpochs = 9, MiniBatchSize = 50, 
+	Shuffle = every-epoch, ValidationFrequency = 30, InitialLeanRate = 0.0001]
+
+No augmentation = 86.2893%
+PixelShuffle x1 = 85.9679%  
+ContentFill x2 = 84.9966%
+Superpixel x1 = 86.3981%
+ColorReduction x1 = 85.3229%
+Project x2 = 88.0157%
+
+DatasColor_38 (sembrano tessuti con vene o qualcosa del genere)
+	options=[Optimizer= adam, MaxEpochs = 9, MiniBatchSize = 50, 
+	Shuffle = every-epoch, ValidationFrequency = 30, InitialLeanRate = 0.0001]
+
+No augmentation = 89.09%
+Classic = 94.09% temporaneo perchè non avevo tempo 
+
+
+DatasColor_34 ()
+	options=[Optimizer= adam, MaxEpochs = 9, MiniBatchSize = 50, 
+	Shuffle = every-epoch, ValidationFrequency = 30, InitialLeanRate = 0.0001]
+
+No augmentation = 96.60%
+Classic = 
+
+
+
+DatasColor_37 ()Sarebbe meglio aumentare il numero di epochs
+	options=[Optimizer= adam, MaxEpochs = 9, MiniBatchSize = 50, 
+	Shuffle = every-epoch, ValidationFrequency = 30, InitialLeanRate = 0.0001]
+
+No augmentation = 91.67%
+Classic = 93.33%
+DeformLaplacianColorred = 95.00%
+DCTDeform = 91.67%

@@ -1,36 +1,31 @@
+%projects the image in a skewed plane distorting it
+disp("Project");
 try
-
-    append = 1;%da dove partire a inserire immagini
-    iterations = 2; %cambiare prima di ogni chiamata a file per modificare il numero di immagini generate
-    interval = [1:tr_data_sz];%intervallo da cui campionare immagini
+    interval = [1:tr_data_sz];  %intervallo da cui campionare immagini
 
     for pattern = interval
-        i = 1;
-        while i <= iterations
-            img(:,:,:)=training_imgs(:,:,:,pattern);
+        img(:,:,:)=training_imgs(:,:,:,pattern);
 
-            T = [1              rand()/2-0.25    rand()/1000000;
-                rand()/2-0.25      1             rand()/10000;
-                rand()/100000   0             1];
-            T = projective2d(T);
-            img = imwarp(img,T,'FillValues',randi([0,255]));
-            img = imresize(img,im_dim);
+        T = [1              rand()/2-0.25    rand()/1000000;
+            rand()/2-0.25      1             rand()/10000;
+            rand()/100000   0             1];
+        T = projective2d(T);
+        img = imwarp(img,T,'FillValues',randi([0,255]));
+        img = imresize(img,im_dim);
 
-            %montage({training_imgs(:,:,:,pattern), img});pause(1);
+        %montage({training_imgs(:,:,:,pattern), img});pause(1);
 
-            training_imgs(:,:,:,tr_data_sz+append) = img;
-            training_lbls(tr_data_sz+append)=training_lbls(pattern);
-            append = append + 1;
-            i = i + 1;
+        training_imgs(:,:,:,end+1) = img;
+        training_lbls(end+1)=training_lbls(pattern);
 
-        end
     end
 
 catch ERROR
-    ERROR;
-    disp("\nDataset could be corrupted, restore it with the training_imgs_bk and lables\n");
+    ERROR
+    disp("\nSomething went wrong inside the augmentation\nTo restore the training set use the backup training_imgs_bk and lables\n");
     keyboard;
 end
 
-clearvars i pattern img append iterations interval T
+clearvars i pattern img interval
+clearvars T
 

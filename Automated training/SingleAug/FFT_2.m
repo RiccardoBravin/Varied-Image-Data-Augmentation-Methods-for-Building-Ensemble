@@ -1,54 +1,36 @@
+%Calculating phase from FFT and flipping it
+disp("FFT phase flip");
 try
-
-    append = 1;%da dove partire a inserire immagini
-    iterations = 1; %cambiare prima di ogni chiamata a file per modificare il numero di immagini generate
-    interval = [1:tr_data_sz];%intervallo da cui campionare immagini
+    interval = [1:tr_data_sz];  %intervallo da cui campionare immagini
 
     for pattern = interval
-        i = 1;
-        while i <= iterations
-            img(:,:,:)=training_imgs(:,:,:,pattern);
-            R = img(:,:,1);
-            G = img(:,:,2);
-            B = img(:,:,3);
 
-            I = fft2(R);
+        img(:,:,:)=training_imgs(:,:,:,pattern);
+
+        for plane = 1:3
+            I = fft2(img(:,:,plane));
             mag = abs(I);
             phs = angle(I);
-            mag = mag .* ((rand(size(mag)))+0.5);
+            mag = flip(mag,1);
             I = mag.*exp(1i.*phs);
-            R = uint8(abs(ifft2(I)));
+            img(:,:,plane) = uint8(abs(ifft2(I)));
 
-            I = fft2(G);
-            mag = abs(I);
-            phs = angle(I);
-            mag = mag .* ((rand(size(mag)))+0.5);
-            I = mag.*exp(1i.*phs);
-            G = uint8(abs(ifft2(I)));
-
-            I = fft2(B);
-            mag = abs(I);
-            phs = angle(I);
-            mag = mag .* ((rand(size(mag)))+0.5);
-            I = mag.*exp(1i.*phs);
-            B = uint8(abs(ifft2(I)));
-
-            img = uint8(cat(3,R,G,B));
-
-            montage({training_imgs(:,:,:,pattern), img}); pause(1);
-
-            training_imgs(:,:,:,tr_data_sz+append) = img;
-            training_lbls(tr_data_sz+append)=training_lbls(pattern);
-            append = append + 1;
-            i = i + 1;
         end
+
+        %montage({training_imgs(:,:,:,pattern), img}); pause(0.5);
+
+        training_imgs(:,:,:,end+1) = img;
+        training_lbls(end+1)=training_lbls(pattern);
+
+
     end
 
 catch ERROR
-    ERROR;
-    disp("\nDataset could be corrupted, restore it with the training_imgs_bk and lables\n");
+    ERROR
+    disp("\nSomething went wrong inside the augmentation\nTo restore the training set use the backup training_imgs_bk and lables\n");
     keyboard;
 end
 
-clearvars i pattern img R G B I mag phs
+clearvars pattern img interval
+clearvars I mag phs plane
 

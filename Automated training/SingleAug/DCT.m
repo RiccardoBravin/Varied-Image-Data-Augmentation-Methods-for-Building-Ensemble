@@ -1,42 +1,41 @@
+%Applies DCT two times and adds some post processing to make the image more
+%readable
+disp("DCT ripetuta");
 try
-    append = 1;%da dove partire a inserire immagini
-    iterations = 1; %cambiare prima di ogni chiamata a file per modificare il numero di immagini generate
-    interval = [1:tr_data_sz];%intervallo da cui campionare immagini
+    
+    interval = [1:tr_data_sz];  %intervallo da cui campionare immagini
+
 
     for pattern = interval
-        i = 1;
-        while i <= iterations
+        
             img(:,:,:)=training_imgs(:,:,:,pattern);
 
             R = dct2(img(:,:,1));
             G = dct2(img(:,:,2));
             B = dct2(img(:,:,3));
 
-            R(abs(R) < randi([0,20])) = 0;
-            G(abs(G) < randi([0,20])) = 0;
-            G(abs(G) < randi([0,20])) = 0;
+            R = uint8(rescale(dct2(R),0,255));
+            G = uint8(rescale(dct2(G),0,255));
+            B = uint8(rescale(dct2(B),0,255));
 
-            R = rescale(dct2(R),0,255);
-            G = rescale(dct2(G),0,255);
-            B = rescale(dct2(B),0,255);
+            R = histeq(imreducehaze(R));
+            G = histeq(imreducehaze(G));
+            B = histeq(imreducehaze(B));
 
             img = uint8(cat(3,R,G,B));
 
-            montage({training_imgs(:,:,:,pattern), img});pause(1);
+            %montage({training_imgs(:,:,:,pattern), img});pause(0.5);
 
-            training_imgs(:,:,:,tr_data_sz+append) = img;
-            training_lbls(tr_data_sz+append)=training_lbls(pattern);
-            append = append + 1;
-            i = i + 1;
+            training_imgs(:,:,:,end+1) = img;
+            training_lbls(end+1)=training_lbls(pattern);
 
-        end
     end
 
 catch ERROR
-    ERROR;
-    disp("\nDataset could be corrupted, restore it with the training_imgs_bk and lables\n");
+    ERROR
+    disp("\nSomething went wrong inside the augmentation\nTo restore the training set use the backup training_imgs_bk and lables\n");
     keyboard;
 end
 
-clearvars i pattern img R G B
-
+clearvars pattern img interval
+clearvars R G B

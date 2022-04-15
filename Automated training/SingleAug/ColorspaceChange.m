@@ -1,24 +1,22 @@
+%changes the colorspace to yiq using the written function
+disp("Change colorspace to yiq");
 try
-
-    append=1;%da dove partire a inserire immagini
-    iterations = 1; %cambiare prima di ogni chiamata a file per modificare il numero di immagini generate
-    interval = [1:tr_data_sz];%intervallo da cui campionare immagini
+    interval = [1:tr_data_sz];  %intervallo da cui campionare immagini
 
     for pattern = interval
 
         img(:,:,:)=training_imgs(:,:,:,pattern);
 
-        training_imgs(:,:,:,tr_data_sz+append) = rgb2yiq(img);
-        training_lbls(tr_data_sz+append)=training_lbls(pattern);
-        append = append + 1;
+        training_imgs(:,:,:,end+1) = rgb2yiq(img);
+        training_lbls(end+1)=training_lbls(pattern);
 
     end
 
 catch ERROR
-    ERROR;
-    disp("\nDataset could be corrupted, restore it with the training_imgs_bk and lables\n");
+    ERROR
+    disp("\nSomething went wrong inside the augmentation\nTo restore the training set use the backup training_imgs_bk and lables\n");
     keyboard;
 end
 
-clearvars i pattern img j vec lns
+clearvars pattern img interval
 

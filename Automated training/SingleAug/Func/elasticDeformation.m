@@ -8,7 +8,7 @@ function [out] = elasticDeformation(IM, type, alpha)
     end
     
     %% Generazione spostamenti casuali
-    dx = -1+2*rand(size(IM)); 
+    dx = -1+2*rand(size(IM));
     dy = -1+2*rand(size(IM));
 
     %% Creazione filtro
@@ -33,6 +33,10 @@ function [out] = elasticDeformation(IM, type, alpha)
     fdx=alpha*fdx./n;
     fdy=alpha*fdy./n;
     
+    %smoothing di fdx e fdy
+    fdx = imgaussfilt(fdx,3);
+    fdy = imgaussfilt(fdy,3);
+
     %creo una griglia con gli indici della matrice
     [y, x]=ndgrid(1:size(IM,1),1:size(IM,2));
 

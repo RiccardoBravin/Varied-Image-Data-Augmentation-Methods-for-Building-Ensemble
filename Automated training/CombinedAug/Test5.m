@@ -38,11 +38,6 @@ try
             training_lbls(tr_data_sz+append)=training_lbls(pattern);
             append = append + 1;
 
-            %decorr stretch
-            training_imgs(:,:,:,tr_data_sz+append) = decorrstretch(img);
-            training_lbls(tr_data_sz+append)=training_lbls(pattern);
-            append = append + 1;
-
             %denoisemf2
             R = medfilt2(img(:,:,1));
             G = medfilt2(img(:,:,2));
@@ -56,17 +51,7 @@ try
             training_lbls(tr_data_sz+append)=training_lbls(pattern);
             append = append + 1;
 
-            %Project
-            T = [1              rand()/2-0.25    rand()/1000000;
-                rand()/2-0.25      1             rand()/10000;
-                rand()/100000   0             1];
-            T = projective2d(T);
-            im_result = imwarp(img,T,'FillValues',randi([0,255]));
-            im_result = imresize(im_result,im_dim);
 
-            training_imgs(:,:,:,tr_data_sz+append) = im_result;
-            training_lbls(tr_data_sz+append)=training_lbls(pattern);
-            append = append + 1;
             i = i + 1;
 
         end

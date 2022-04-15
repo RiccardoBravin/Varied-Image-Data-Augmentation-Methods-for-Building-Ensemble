@@ -4,7 +4,7 @@ try
     iterations = 1; %cambiare prima di ogni chiamata a file per modificare il numero di immagini generate
     interval = [1:tr_data_sz]; %intervallo da cui campionare immagini
 
-    types = {'gauss','average','disk','log'};
+    types = {'gauss','average','disk'};
 
     for pattern = interval
         i = 1;
@@ -12,50 +12,13 @@ try
         while i <= iterations
 
             %deform
-            training_imgs(:,:,:,tr_data_sz+append) = elasticDeformation(img, types(randi([1,4])), randi([700,1500]));
+            training_imgs(:,:,:,tr_data_sz+append) = elasticDeformation(img, types(randi([1,3])), randi([1200,1800]));
             training_lbls(tr_data_sz+append)=training_lbls(pattern);
             append = append + 1;
 
             %color reduction
             [IND,map] = rgb2ind(img, randi([16,64]),'nodither');
             training_imgs(:,:,:,tr_data_sz+append) = uint8(ind2rgb(IND,map)*255);
-            training_lbls(tr_data_sz+append)=training_lbls(pattern);
-            append = append + 1;
-            
-            %FFT_2
-            R = img(:,:,1);
-            G = img(:,:,2);
-            B = img(:,:,3);
-
-            I = fft2(R);
-            mag = abs(I);
-            phs = angle(I);
-            mag = mag .* ((rand(size(mag)))+0.5);
-            I = mag.*exp(1i.*phs);
-            R = uint8(abs(ifft2(I)));
-
-            I = fft2(G);
-            mag = abs(I);
-            phs = angle(I);
-            mag = mag .* ((rand(size(mag)))+0.5);
-            I = mag.*exp(1i.*phs);
-            G = uint8(abs(ifft2(I)));
-
-            I = fft2(B);
-            mag = abs(I);
-            phs = angle(I);
-            mag = mag .* ((rand(size(mag)))+0.5);
-            I = mag.*exp(1i.*phs);
-            B = uint8(abs(ifft2(I)));
-
-            im_result = uint8(cat(3,R,G,B));
-            training_imgs(:,:,:,tr_data_sz+append) = im_result;
-            training_lbls(tr_data_sz+append)=training_lbls(pattern);
-            append = append + 1;
-
-            %Deconvolution
-            PSF = imnoise(zeros(randi([4,8])),"gaussian", 1);
-            training_imgs(:,:,:,tr_data_sz+append) = deconvblind(img,PSF);
             training_lbls(tr_data_sz+append)=training_lbls(pattern);
             append = append + 1;
             

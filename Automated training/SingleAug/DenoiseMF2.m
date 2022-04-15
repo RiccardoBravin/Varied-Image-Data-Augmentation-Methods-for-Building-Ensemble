@@ -1,32 +1,29 @@
+%Image denoising with median filter
+disp("MF2 denoising"),
 try
-
-    append = 1;%da dove partire a inserire immagini
-    iterations = 1; %cambiare prima di ogni chiamata a file per modificare il numero di immagini generate
-    interval = [1:tr_data_sz];%intervallo da cui campionare immagini
+    interval = [1:tr_data_sz];  %intervallo da cui campionare immagini
 
     for pattern = interval
 
         img(:,:,:)=training_imgs(:,:,:,pattern);
+        
+        img(:,:,1) = medfilt2(img(:,:,1));
+        img(:,:,2) = medfilt2(img(:,:,2));
+        img(:,:,3) = medfilt2(img(:,:,3));
 
-        R = medfilt2(img(:,:,1));
-        G = medfilt2(img(:,:,2));
-        B = medfilt2(img(:,:,3));
+        %montage({training_imgs(:,:,:,pattern), img}); pause(2);
 
-        img = cat(3,R,G,B);
+        training_imgs(:,:,:,end+1) = img;
+        training_lbls(end+1)=training_lbls(pattern);
 
-
-        training_imgs(:,:,:,tr_data_sz+append) = img;
-        training_lbls(tr_data_sz+append)=training_lbls(pattern);
-        append = append + 1;
 
     end
 
 catch ERROR
-    ERROR;
-    disp("\nDataset could be corrupted, restore it with the training_imgs_bk and lables\n");
+    ERROR
+    disp("\nSomething went wrong inside the augmentation\nTo restore the training set use the backup training_imgs_bk and lables\n");
     keyboard;
 end
 
-
-clearvars i pattern img R G B X ind
-
+clearvars pattern img interval 
+clearvars R G B
