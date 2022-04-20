@@ -1,50 +1,14 @@
-try
 
-    append=1;%da dove partire a inserire immagini
-    iterations = 1; %cambiare prima di ogni chiamata a file per modificare il numero di immagini generate
-    interval = [1:tr_data_sz]; %intervallo da cui campionare immagini
+disp("Deformation,ColorReduction e Laplacian x1");
 
-    types = {'gauss','average','disk'};
+Deformation;
+imshow(training_imgs(:,:,:,end));
+pause(0.5);
 
-    for pattern = interval
-        i = 1;
-        img(:,:,:) = training_imgs(:,:,:,pattern);
-        while i <= iterations
+ColorReduction
+imshow(training_imgs(:,:,:,end));
+pause(0.5);
 
-            %deform
-            training_imgs(:,:,:,tr_data_sz+append) = elasticDeformation(img, types(randi([1,3])), randi([1200,1800]));
-            training_lbls(tr_data_sz+append)=training_lbls(pattern);
-            append = append + 1;
-
-            %color reduction
-            [IND,map] = rgb2ind(img, randi([16,64]),'nodither');
-            training_imgs(:,:,:,tr_data_sz+append) = uint8(ind2rgb(IND,map)*255);
-            training_lbls(tr_data_sz+append)=training_lbls(pattern);
-            append = append + 1;
-            
-            %laplacian
-            rn = randi([1,3]);
-            if rn == 1
-                im_result = locallapfilt(img, 0.5,rand()/3);
-            elseif rn == 2
-                im_result = locallapfilt(img, 0.2,2.5);
-            else
-                im_result = locallapfilt(img, 255,0.8,0.1);
-            end
-            
-            training_imgs(:,:,:,tr_data_sz+append) = im_result;
-            training_lbls(tr_data_sz+append)=training_lbls(pattern);
-            append = append + 1;
-
-            i = i + 1;
-        end
-    end
-    
-catch ERROR
-    ERROR;
-    disp("\nDataset could be corrupted, restore it with the training_imgs_bk and lables\n");
-    keyboard;
-end
-clearvars i pattern img T distanceImage IND map redIdx greenIdx blueIdx im_result idx R G B
-clearvars squareSizeX squareX rangeX1 squareSizeY squareY rangeY1 rangeX2 rangeY2 x y h k im_result
-clearvars append iterations inverval his I j L Ins mod N pos types vec
+Laplacian;
+imshow(training_imgs(:,:,:,end));
+pause(0.5);

@@ -1,25 +1,37 @@
 disp("Cascade of all augmentation methods")
 
-Classic;
-
-ColorReduction;
-
 DCT;
+imshow(training_imgs(:,:,:,end));
+pause(0.5);
 
 Deformation;
-
-DenoiseMF2;
+imshow(training_imgs(:,:,:,end));
+pause(0.5);
 
 FFT;
+imshow(training_imgs(:,:,:,end));
+pause(0.5);
 
 FFTCombine;
-
-Histeq;
+imshow(training_imgs(:,:,:,end));
+pause(0.5);
 
 Laplacian;
-
-Negative;
+imshow(training_imgs(:,:,:,end));
+pause(0.5);
 
 SingValDec;
+imshow(training_imgs(:,:,:,end));
+pause(0.5);
 
 SuperPixel;
+imshow(training_imgs(:,:,:,end));
+pause(0.5);
+
+ColorReduction
+imshow(training_imgs(:,:,:,end));
+pause(0.5);
+
+HilbertTransform;
+imshow(training_imgs(:,:,:,end));
+pause(0.5);

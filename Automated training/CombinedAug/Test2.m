@@ -90,18 +90,7 @@ try
                 img = im_result;
             end
 
-            %             %RandXReflection
-            %             if rand() < 0.2
-            %                 mod = true;
-            %                 img = flip(img,1);
-            %             end
-            %
-            %             %RandYReflection
-            %             if rand() < 0.2
-            %                 mod = true;
-            %                 img = flip(img,2);
-            %             end
-
+            
             %negative
             if rand() < 0.05
                 mod = true;
@@ -140,30 +129,6 @@ try
                 his = imhist(training_imgs(:,:,:,randi([interval(1), interval(length(interval))])));
                 img = histeq(img,his);
             end
-
-            %             %hue jitter
-            %             if rand() < 0.3
-            %                 mod = true;
-            %                 img = jitterColorHSV(img,'Hue',[0.05 0.15]);
-            %             end
-            %
-            %             %Saturation jitter
-            %             if rand() < 0.3
-            %                 mod = true;
-            %                 img = jitterColorHSV(img,'Saturation',[-0.4 -0.1]);
-            %             end
-            %
-            %             %Brightness jitter
-            %             if rand() < 0.3
-            %                 mod = true;
-            %                 img = jitterColorHSV(img,'Brightness',[-0.3 -0.1]);
-            %             end
-            %
-            %             %Contrast jitter
-            %             if rand() < 0.3
-            %                 mod = true;
-            %                 img = jitterColorHSV(img,'Contrast',[1.2 1.4]);
-            %             end
 
             if rand() < 0.2
                 rn = randi([1,3]);

@@ -1,20 +1,17 @@
+disp("Cascade of all augmentation methods")
 
-disp("SuperPixel,Deformation,PixelShuffle,ContentFill x1");
-
-SuperPixel
+DCT;
 imshow(training_imgs(:,:,:,end));
 pause(0.5);
 
-Deformation
+SuperPixel;
 imshow(training_imgs(:,:,:,end));
 pause(0.5);
 
-PixelShuffle
+HilbertTransform;
 imshow(training_imgs(:,:,:,end));
 pause(0.5);
 
-ContentFill
+Hampel;
 imshow(training_imgs(:,:,:,end));
 pause(0.5);
-
-
