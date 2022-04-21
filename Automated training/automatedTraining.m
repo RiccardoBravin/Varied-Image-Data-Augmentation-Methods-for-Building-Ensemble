@@ -331,6 +331,39 @@ accuracy{4,acc_i} = confusionmat(test_lbls',outclass);
 training_imgs = training_imgs_bk;
 training_lbls = training_lbls_bk;
 
+%% HampelHilbertDCTLaplacian
+acc_i = acc_i+1;
+
+HampelHilbertDCTLaplacian;
+
+netTransfer = trainNetwork(training_imgs, training_lbls, lgraph, options); %training with modified dataset
+
+[outclass, score] =  classify(netTransfer,test_imgs); %classification with test images
+
+accuracy{1,acc_i} = "Hampel, Hilbert, DCT e Laplacian x1";
+accuracy{2,acc_i} = sum(outclass' == test_lbls)/size(test_lbls,2);
+accuracy{3,acc_i} = [1:num_classes;histcounts(outclass((test_lbls' == outclass)))./histcounts(outclass)];
+accuracy{4,acc_i} = confusionmat(test_lbls',outclass);
+
+training_imgs = training_imgs_bk;
+training_lbls = training_lbls_bk;
+
+%% Classic plus my augmentation
+acc_i = acc_i+1;
+
+ClassicPP;
+
+netTransfer = trainNetwork(training_imgs, training_lbls, lgraph, options); %training with modified dataset
+
+[outclass, score] =  classify(netTransfer,test_imgs); %classification with test images
+
+accuracy{1,acc_i} = "Classic++ x1";
+accuracy{2,acc_i} = sum(outclass' == test_lbls)/size(test_lbls,2);
+accuracy{3,acc_i} = [1:num_classes;histcounts(outclass((test_lbls' == outclass)))./histcounts(outclass)];
+accuracy{4,acc_i} = confusionmat(test_lbls',outclass);
+
+training_imgs = training_imgs_bk;
+training_lbls = training_lbls_bk;
 %% Saving results
 
-save(strcat("DatasColor37_", num2str(fold), "_accuracy.mat"),"accuracy");
+save(strcat("DatasColor_37_", num2str(fold), "_accuracy.mat"),"accuracy");

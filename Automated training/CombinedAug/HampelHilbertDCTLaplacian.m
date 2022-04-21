@@ -1,20 +1,18 @@
 
-disp("SuperPixel,Deformation,PixelShuffle,ContentFill x1");
+disp("Hampel,Hilbert,DCT e Laplacian x1");
 
-SuperPixel
+Hampel;
 % imshow(training_imgs(:,:,:,end));
 % pause(0.5);
 
-Deformation
+HilbertTransform;
 % imshow(training_imgs(:,:,:,end));
 % pause(0.5);
 
-PixelShuffle
+DCT;
 % imshow(training_imgs(:,:,:,end));
 % pause(0.5);
 
-ContentFill
+Laplacian;
 % imshow(training_imgs(:,:,:,end));
 % pause(0.5);
-
-

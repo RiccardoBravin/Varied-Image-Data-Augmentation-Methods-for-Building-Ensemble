@@ -1,20 +1,21 @@
+disp("Classic plus my methods")
 
-disp("SuperPixel,Deformation,PixelShuffle,ContentFill x1");
-
-SuperPixel
+Classic
 % imshow(training_imgs(:,:,:,end));
 % pause(0.5);
 
-Deformation
+Deformation;
 % imshow(training_imgs(:,:,:,end));
 % pause(0.5);
 
-PixelShuffle
+FFT;
 % imshow(training_imgs(:,:,:,end));
 % pause(0.5);
 
-ContentFill
+HilbertTransform;
 % imshow(training_imgs(:,:,:,end));
 % pause(0.5);
 
-
+Hampel;
+% imshow(training_imgs(:,:,:,end));
+% pause(0.5);

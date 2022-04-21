@@ -19,9 +19,9 @@ try
             LB = [LB,B(j,:)];
         end
 
-        LR = hampel(LR,20,0.9);
-        LG = hampel(LG,20,0.9);
-        LB = hampel(LB,20,0.9);
+        LR = hampel(LR,20,1.5);
+        LG = hampel(LG,20,1.5);
+        LB = hampel(LB,20,1.5);
 
         for j = 1:size(R,1)
             R(j,:) = LR((j-1)*size(R,1)+ 1: j*size(R,1));
