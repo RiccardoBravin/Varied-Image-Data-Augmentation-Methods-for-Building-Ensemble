@@ -34,8 +34,8 @@ training_lbls_bk = training_lbls;
 
 %% TRAINING OPTIONS
 options = trainingOptions('adam',...                    %sgdm
-    'Plots','none',...                     %training-progress
-    'Verbose', true,...                                %false                          
+    'Plots','training-progress',...                     %training-progress
+    'Verbose', false,...                                %false                          
     'MaxEpochs', 10,...                                  %20
     'MiniBatchSize', 50,...                             %30
     'Shuffle', 'every-epoch',...                        %every-epoch
