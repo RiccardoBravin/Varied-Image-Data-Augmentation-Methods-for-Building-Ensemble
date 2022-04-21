@@ -27,6 +27,11 @@ Classic =
 
 
 
+
+
+To avoid:
+Deform+Laplacian+ColorRed
+
 DatasColor_37 ()Sarebbe meglio aumentare il numero di epochs
 	options=[Optimizer= adam, MaxEpochs = 9, MiniBatchSize = 50, 
 	Shuffle = every-epoch, ValidationFrequency = 30, InitialLeanRate = 0.0001]
