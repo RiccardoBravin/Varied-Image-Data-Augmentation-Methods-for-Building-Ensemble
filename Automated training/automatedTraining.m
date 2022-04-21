@@ -347,4 +347,4 @@ training_imgs = training_imgs_bk;
 training_lbls = training_lbls_bk;
 %% Saving results
 
-save(strcat(extractBefore(DatasetName,".mat"), num2str(fold), "_accuracy.mat"),"accuracy");
+save(strcat(extractBefore(DatasetName,".mat"), "_", num2str(fold), "_accuracy.mat"),"accuracy");
