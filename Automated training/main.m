@@ -3,7 +3,7 @@ clear all
 close all force
 warning off
 
-DatasetName = "DatasColor_37.mat";
+DatasetName = "DatasColor_34.mat";
 
 load(DatasetName,"DATA");%to load the dataset used in this example
 
@@ -23,7 +23,6 @@ for fold = 1:size(PATS,1)
     try
         disp(strcat("iteration ",num2str(fold)));
         automatedTraining;
-        save(strcat("bark_fold", num2str(fold), "_accuracy.mat"),"accuracy");
         accuracy
         clearvars accuracy
         close all force
