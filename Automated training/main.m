@@ -3,7 +3,7 @@ clear all
 close all force
 warning off
 
-DatasetName = "DatasColor_34.mat";
+DatasetName = "DatasColor_65.mat";
 
 load(DatasetName,"DATA");%to load the dataset used in this example
 
