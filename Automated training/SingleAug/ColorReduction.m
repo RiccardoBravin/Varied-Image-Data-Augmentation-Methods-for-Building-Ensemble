@@ -8,7 +8,7 @@ try
     for pattern = interval
         img(:,:,:)=training_imgs(:,:,:,pattern);
 
-        [IND,map] = rgb2ind(img, randi([6,18]),'nodither');
+        [IND,map] = rgb2ind(img, randi([6,12]),'nodither');
         img = uint8(ind2rgb(IND,map)*255);
 
         %montage({training_imgs(:,:,:,pattern), img});pause(0.5);

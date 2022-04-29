@@ -9,6 +9,7 @@ try
         PSF = imnoise(zeros(randi([4,8])),"gaussian", 1);
         training_imgs(:,:,:,end+1) = deconvblind(img,PSF);
         training_lbls(end+1)=training_lbls(pattern);
+        %montage({training_imgs(:,:,:,pattern), training_imgs(:,:,:,end)});pause(0.5);
     end
 
 catch ERROR

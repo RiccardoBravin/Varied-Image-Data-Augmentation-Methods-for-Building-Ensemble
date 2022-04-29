@@ -10,9 +10,8 @@ try
             for j = 1 : 3
                 I = double(img(:,:,j));
                 [U,S,V] = svd(I);
-
+                
                 S(S < (max(max(S))/randi([50,100]))) = 0;
-
                 img(:,:,j) = U*S*V';
 
             end
