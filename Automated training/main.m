@@ -3,7 +3,7 @@ clear all
 close all force
 warning off
 
-DatasetName = "DatasColor_65.mat";
+DatasetName = "DatasColor_37.mat";
 
 load(DatasetName,"DATA");%to load the dataset used in this example
 
@@ -16,30 +16,30 @@ DIM  = DATA{5}; %numero totale di immagini presenti
 %% TESTING
 
 if size(PATS,1) <= 1
-    error("The number of folds in the dataset is not enough for k-fold cross validation")
+   error("The number of folds in the dataset is not enough for k-fold cross validation")
 end
 
 for fold = 1:size(PATS,1)
     try
-        disp(strcat("iteration ",num2str(fold)));
+        disp(strcat("ITERATION ",num2str(fold)));
         automatedTraining;
-        accuracy
-        clearvars accuracy
+        for i = 1:size(accuracy{1},2) 
+            disp(strcat(accuracy{fold}{1,i}, " = ", num2str(accuracy{fold}{2,i}*100), "%"));
+        end
+        save(strcat(extractBefore(DatasetName,".mat"), "_accuracy.mat"),"accuracy");
         close all force
     
     catch ERRORGENERIC
         try
-            ERRORGENERIC
-            save(strcat("bark_fold", num2str(fold), "_accuracy.mat"),"accuracy");
+            disp(ERRORGENERIC)
+            save(strcat(extractBefore(DatasetName,".mat"), "_accuracy.mat"),"accuracy");
             disp("Program terminated safely");
             keyboard;
-            return;
         catch ERRORSAVE
-            ERRORSAVE
+            disp(ERRORSAVE)
+            keyboard;
             error("Program terminated without saving");
         end
-        ERRORGENERIC
-        keyboard;
-        error("TERMINATED");
+        
     end
 end
