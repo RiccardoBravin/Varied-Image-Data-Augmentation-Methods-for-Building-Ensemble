@@ -251,11 +251,85 @@ accuracy{fold}{5,acc_i} = confusionmat(test_lbls',outclass); %confusion matrix
 training_imgs = training_imgs_bk;
 training_lbls = training_lbls_bk;
 
+%% PixelShuffle
 
-%% Test 3
 acc_i = acc_i+1;
 
-Test3;
+PixelShuffle;
+
+netTransfer = trainNetwork(training_imgs, training_lbls, lgraph, options); %training with modified dataset
+
+[outclass, score] =  classify(netTransfer,test_imgs); %classification with test images
+
+accuracy{fold}{1,acc_i} = "PixelShuffle x1";
+accuracy{fold}{2,acc_i} = sum(outclass' == test_lbls)/size(test_lbls,2); %accuracy of test set
+accuracy{fold}{3,acc_i} = outclass; 
+accuracy{fold}{4,acc_i} = score;
+accuracy{fold}{5,acc_i} = confusionmat(test_lbls',outclass); %confusion matrix
+
+training_imgs = training_imgs_bk;
+training_lbls = training_lbls_bk;
+
+%% SVD
+acc_i = acc_i+1;
+
+SingValDec;
+
+netTransfer = trainNetwork(training_imgs, training_lbls, lgraph, options); %training with modified dataset
+
+[outclass, score] =  classify(netTransfer,test_imgs); %classification with test images
+
+accuracy{fold}{1,acc_i} = "SVD x1";
+accuracy{fold}{2,acc_i} = sum(outclass' == test_lbls)/size(test_lbls,2); %accuracy of test set
+accuracy{fold}{3,acc_i} = outclass; 
+accuracy{fold}{4,acc_i} = score;
+accuracy{fold}{5,acc_i} = confusionmat(test_lbls',outclass); %confusion matrix
+
+training_imgs = training_imgs_bk;
+training_lbls = training_lbls_bk;
+
+%% Hilbert transform
+
+acc_i = acc_i+1;
+
+HilbertTransform;
+
+netTransfer = trainNetwork(training_imgs, training_lbls, lgraph, options); %training with modified dataset
+
+[outclass, score] =  classify(netTransfer,test_imgs); %classification with test images
+
+accuracy{fold}{1,acc_i} = "Hilbert transform x1";
+accuracy{fold}{2,acc_i} = sum(outclass' == test_lbls)/size(test_lbls,2); %accuracy of test set
+accuracy{fold}{3,acc_i} = outclass; 
+accuracy{fold}{4,acc_i} = score;
+accuracy{fold}{5,acc_i} = confusionmat(test_lbls',outclass); %confusion matrix
+
+training_imgs = training_imgs_bk;
+training_lbls = training_lbls_bk;
+
+%% Hampel
+
+acc_i = acc_i+1;
+
+Hampel;
+
+netTransfer = trainNetwork(training_imgs, training_lbls, lgraph, options); %training with modified dataset
+
+[outclass, score] =  classify(netTransfer,test_imgs); %classification with test images
+
+accuracy{fold}{1,acc_i} = "Hampel x1";
+accuracy{fold}{2,acc_i} = sum(outclass' == test_lbls)/size(test_lbls,2); %accuracy of test set
+accuracy{fold}{3,acc_i} = outclass; 
+accuracy{fold}{4,acc_i} = score;
+accuracy{fold}{5,acc_i} = confusionmat(test_lbls',outclass); %confusion matrix
+
+training_imgs = training_imgs_bk;
+training_lbls = training_lbls_bk;
+
+%% SuperPixel Deform PxShuffle ContentFill
+acc_i = acc_i+1;
+
+SuperPxDeformShuffFill;
 
 netTransfer = trainNetwork(training_imgs, training_lbls, lgraph, options); %training with modified dataset
 
