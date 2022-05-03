@@ -3,7 +3,7 @@ clear all
 close all force
 warning off
 
-DatasetName = "DatasColor_37.mat";
+DatasetName = "Datas_2.mat";
 
 load(DatasetName,"DATA");%to load the dataset used in this example
 
@@ -36,7 +36,7 @@ for fold = 1:size(PATS,1)
             disp("Program terminated safely");
             keyboard;
         catch ERRORSAVE
-            disp(ERRORSAVE)
+            disp(ERRORGENERIC)
             keyboard;
             error("Program terminated without saving");
         end

@@ -12,7 +12,13 @@ training_imgs = zeros(im_dim(1), im_dim(2), 3, tr_data_sz, 'uint8'); %inizializz
 for pattern = 1:tr_data_sz              %for all the images of training
     I=IMGS{PATS(fold,pattern)};         %image for the training
     I=imresize(I,im_dim);               %resize image
-    training_imgs(:,:,:,pattern) = I;   %add to the training images
+    if(size(I,3) == 3)
+        training_imgs(:,:,:,pattern) = I;   %add to the training images
+    elseif(size(I,3) == 1)
+        training_imgs(:,:,1,pattern) = I;   %add to the training images
+        training_imgs(:,:,2,pattern) = I;
+        training_imgs(:,:,3,pattern) = I;
+    end
 end
 
 training_lbls = LBLS(PATS(fold,1:tr_data_sz)); %lables for the training images
@@ -22,7 +28,13 @@ test_imgs = zeros(im_dim(1), im_dim(2), 3, DIM - tr_data_sz, 'uint8'); %iniziali
 for pattern = tr_data_sz+1:DIM          %for all the images of test
     I=IMGS{PATS(fold,pattern)};         %image for the test
     I=imresize(I,im_dim);                   %resize image
-    test_imgs(:,:,:,pattern-tr_data_sz) = I;   %add to the test images
+    if(size(I,3) == 3)
+        test_imgs(:,:,:,pattern-tr_data_sz) = I;   %add to the test images
+    elseif(size(I,3) == 1)
+        test_imgs(:,:,1,pattern-tr_data_sz) = I;
+        test_imgs(:,:,2,pattern-tr_data_sz) = I;
+        test_imgs(:,:,3,pattern-tr_data_sz) = I;
+    end
 end
 
 test_lbls = LBLS(PATS(fold,tr_data_sz+1:DIM)); %lables for the test images
