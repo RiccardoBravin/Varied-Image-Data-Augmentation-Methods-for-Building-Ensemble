@@ -26,17 +26,19 @@ for fold = 1:size(PATS,1)
         for i = 1:size(accuracy{1},2) 
             disp(strcat(accuracy{fold}{1,i}, " = ", num2str(accuracy{fold}{2,i}*100), "%"));
         end
-        save(strcat(extractBefore(DatasetName,".mat"), "_accuracy.mat"),"accuracy");
+        %save(strcat(extractBefore(DatasetName,".mat"), "_accuracy.mat"),"accuracy");
         close all force
     
     catch ERRORGENERIC
         try
             disp(ERRORGENERIC)
+            disp(ERRORGENERIC.stack)
             save(strcat(extractBefore(DatasetName,".mat"), "_accuracy.mat"),"accuracy");
             disp("Program terminated safely");
             keyboard;
         catch ERRORSAVE
             disp(ERRORGENERIC)
+            disp(ERRORGENERIC.stack)
             keyboard;
             error("Program terminated without saving");
         end
