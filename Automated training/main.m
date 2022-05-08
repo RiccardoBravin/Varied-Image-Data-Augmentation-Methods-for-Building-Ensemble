@@ -2,10 +2,20 @@
 clear all
 close all force
 warning off
+datas=65;
+DatasetName=datas;
+metodo=5;
 
-DatasetName = "Datas_2.mat";
+%to load the dataset used in this example
+try 
+    Dataset = strcat('DatasColor_',int2str(datas));
+    load(strcat('DatasColor_',int2str(datas)),'DATA');
+catch
+    Dataset = strcat('Datas_',int2str(datas));
+    load(strcat('Datas_',int2str(datas)),'DATA');
+end
 
-load(DatasetName,"DATA");%to load the dataset used in this example
+
 
 IMGS = DATA{1}; %tutte le immagini
 LBLS = DATA{2}; %tutti i label
