@@ -11,8 +11,8 @@ for i = 1:10
        sum = sum + accuracy{j}{2,i}; 
     end
     mean = sum/10;
-    disp(num2str(mean*100));
-    %disp( strcat(accuracy{1}{1,i}, " = ", num2str(mean*100),"%"));
+    %disp(num2str(mean*100));
+    disp( strcat(accuracy{1}{1,i}, " = ", num2str(mean*100),"%"));
 end
 
 %accuracy for class

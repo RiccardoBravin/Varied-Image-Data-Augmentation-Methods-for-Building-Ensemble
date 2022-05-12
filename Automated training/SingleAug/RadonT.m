@@ -48,4 +48,4 @@ catch ERROR
 end
 
 clearvars pattern img interval
-clearvars I M
+clearvars I M Oimg
