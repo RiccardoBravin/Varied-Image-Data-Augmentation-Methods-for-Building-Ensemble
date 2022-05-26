@@ -1,5 +1,5 @@
 function [out] = elasticDeformation(IM, type, alpha)
-%ElasticDeformation Deformazione elastica dell'immagine in input
+%ElasticDeformation Deformazione elastica dell'immagine' in input
 % basato sulla libreria Albumentations https://gist.github.com/erniejunior/601cdf56d2b424757de5
     arguments
         IM (:,:,:)

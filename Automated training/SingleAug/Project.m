@@ -6,9 +6,9 @@ try
     for pattern = interval
         img(:,:,:)=training_imgs(:,:,:,pattern);
 
-        T = [1              rand()/2-0.25    rand()/1000000;
-            rand()/2-0.25      1             rand()/10000;
-            rand()/100000   0             1];
+        T = [1                rand()/2-0.25     rand()/1000000;
+            rand()/2-0.25     1                 rand()/10000;
+            rand()/100000     0                 1];
         T = projective2d(T);
         img = imwarp(img,T,'FillValues',randi([0,255]));
         img = imresize(img,im_dim);

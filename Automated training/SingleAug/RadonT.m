@@ -30,13 +30,13 @@ try
             I = radon(I, 1:179);
             
             I = locallapfilt(uint16(I),0.4,0.1);
-            
+      
             I = iradon(I,1:179,im_dim(1));
 
             Oimg(:,:,plane) = uint8(I*255);
         end
         %montage({training_imgs(:,:,:,pattern), Oimg}); pause(0.5);
-        training_imgs(:,:,:,end+1) = img;
+        training_imgs(:,:,:,end+1) = Oimg;
         training_lbls(end+1)=training_lbls(pattern);
 
     end
