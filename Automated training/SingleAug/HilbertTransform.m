@@ -10,7 +10,7 @@ try
         for plane = 1:3
             I = im2double(img(:,:,plane));
             for j = 1:size(img,2)
-                I(:,j) = (hilbert(I(:,j)));
+                I(:,j) = hilbert(I(:,j));
             end
             img(:,:,plane) = rescale(angle(I),0,255);
         end
