@@ -34,7 +34,7 @@ tr_data_sz = 1;
 % PixelShuffle;
 % PolarDecomposition;
 % Project;
- RadonT;
+% RadonT;
 % SingValDec;
 % SuperPixel;
 % Vignetting;
