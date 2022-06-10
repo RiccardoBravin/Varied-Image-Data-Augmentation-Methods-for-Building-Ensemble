@@ -4,7 +4,7 @@ clear all
 close all force
 warning off
 
-load('DatasColor_37.mat','DATA');%to load the dataset used in this example
+load('DatasColor_65.mat','DATA');%to load the dataset used in this example
 %load('Single.mat','DATA');
 
 IMGS = DATA{1}; %tutte le immagini
@@ -90,8 +90,9 @@ acc_i = 1;
 %% TRAINING
 
 disp("Hi")
-CascadeAll;
-
+tic
+Deconvolution;
+toc
 netTransfer = trainNetwork(training_imgs, training_lbls, lgraph, options);
 
 [outclass, score{fold}] =  classify(netTransfer,test_imgs);

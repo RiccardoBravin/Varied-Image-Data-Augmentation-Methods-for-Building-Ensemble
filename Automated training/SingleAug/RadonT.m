@@ -5,38 +5,36 @@ try
 
     for pattern = interval
 
-        img(:,:,:)=training_imgs(:,:,:,pattern);
-
+        img = training_imgs(:,:,:,pattern);
+        
+        img = im2double(img);
+        
         for plane = 1:3
-            I = im2double(img(:,:,plane));
-            I = radon(I, 1:179);
+            
+            I = radon(img(:,:,plane), 1:179);
             
             M = rand(size(I)) < 0.003;
-            I(M) = max(max(I));
+            I1 = I;
+            I1(M) = max(max(I));
+            %fist modification
+            Oimg1(:,:,plane) = iradon(I1,1:179,im_dim(1));
+            %imagesc(Oimg1)
             
-            I = iradon(I,1:179,im_dim(1));
-
-            Oimg(:,:,plane) = uint8(I*255);
+            I2 = locallapfilt(uint16(I),0.4,0.1);
+            %second modification
+            Oimg2(:,:,plane) = iradon(I2,1:179,im_dim(1));
 
         end
+        
+        %Oimg1 = uint8(Oimg1*255);
+        %Oimg2 = uint8(Oimg2*255);
 
-        %montage({training_imgs(:,:,:,pattern), Oimg}); pause(0.5);
-        training_imgs(:,:,:,end+1) = Oimg;
+        %montage({training_imgs(:,:,:,pattern), Oimg1}); pause(0.5);
+        training_imgs(:,:,:,end+1) = Oimg1;
         training_lbls(end+1)=training_lbls(pattern);
 
-
-        for plane = 1:3
-            I = im2double(img(:,:,plane));
-            I = radon(I, 1:179);
-            
-            I = locallapfilt(uint16(I),0.4,0.1);
-      
-            I = iradon(I,1:179,im_dim(1));
-
-            Oimg(:,:,plane) = uint8(I*255);
-        end
-        %montage({training_imgs(:,:,:,pattern), Oimg}); pause(0.5);
-        training_imgs(:,:,:,end+1) = Oimg;
+        %montage({training_imgs(:,:,:,pattern), Oimg2}); pause(0.5);
+        training_imgs(:,:,:,end+1) = Oimg2;
         training_lbls(end+1)=training_lbls(pattern);
 
     end
@@ -48,4 +46,4 @@ catch ERROR
 end
 
 clearvars pattern img interval
-clearvars I M Oimg
+clearvars I1 I2 M Oimg1 Oimg1
